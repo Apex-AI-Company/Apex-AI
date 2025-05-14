@@ -1,0 +1,23 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Services from "../components/sections/Services.astro";
+---
+
+<MainLayout title="About us">
+	<main class="space-y-20">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-3">
+            <div class="relative flex flex-col-reverse items-center md:flex-row" id="hero">
+                <div class="row items-center py-5 md:pb-20 md:pt-10">
+                    <div class="text-center space-y-10">
+						<h2 class="text-5xl font-medium leading-none md:text-6xl">Transforming industries <br/> through the power of<br/>Artificial Intelligence</h2>
+                        <p class="mt-6 mb-8  text-xl font-normal leading-7 sm:mb-12">We are a general AI solutions company providing end-to-end artificial intelligence services, from data strategy and model development to deployment and integration, tailored to meet the needs of businesses across industries.</p>
+                        <a class="px-9 py-5 bg-zinc-900 hover:bg-white text-white hover:text-black border rounded-2xl justify-items-center md:justify-items-start gap-2.5 inline-flex" rel="noopener noreferrer"  href="mainto:riyaz.jamadar@gmail.com" target="_blank">
+                            <h2 class="text-center text-xl font-normal leading-7">Book a consultation</h2>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <Services />
+	</main>
+</MainLayout>
