@@ -1,0 +1,46 @@
+---
+import type { AstroSeoProps } from "@astrolib/seo";
+import Articles from "@components/blog/Articles.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const seo: AstroSeoProps = {
+	title: "APEXAI Studio Blog: Insights and Updates in General AI, Web dev and SEO",
+	description:
+		"Explore the APEXAI Studio Blog for the latest trends, tips, and insights in General AI, web dev and SEO. Stay updated with our innovative digital solutions.",
+	canonical: "https://apexai.company/it/blog/",
+	openGraph: {
+		url: "https://apexai.company/blog",
+		title: "APEXAI Studio Blog: Insights and Updates in General AI, Web dev and SEO",
+		description:
+			"Stay informed with the latest in General AI and SEO on the APEXAI Studio Blog. Expert advice, tips, and industry insights await you.",
+		images: [
+			{
+				url: "https://apexai.company/opengraph/social-og.jpg",
+				width: 1200,
+				height: 630,
+				alt: "Social open graph image of APEXAI Studio Blog",
+				type: "image/jpeg",
+			},
+			{
+				url: "https://apexai.company/opengraph/twitter-og.jpg",
+				width: 4096,
+				height: 4096,
+				alt: "Twitter open graph image of APEXAI Studio Blog",
+				type: "image/jpeg",
+			},
+			{ url: "https://apexai.company/opengraph/social-og.jpg" },
+			{ url: "https://apexai.company/opengraph/twitter-og.jpg" },
+		],
+		site_name: "APEXAI Studio",
+	},
+	twitter: {
+		handle: "@APEXAIstudio",
+		site: "@APEXAIstudio",
+		cardType: "summary_large_image",
+	},
+};
+---
+
+<BaseLayout seo={seo}>
+	<Articles />
+</BaseLayout>

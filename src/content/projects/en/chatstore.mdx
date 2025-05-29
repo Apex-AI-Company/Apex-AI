@@ -1,0 +1,111 @@
+---
+pubDate: 2024-03-16
+author:
+    name: Aditya Godse
+    link: https://adimail.github.io/
+title: ChatStore
+description: "Intelligent product chatbot agent for personalized shopping experience"
+link: https://github.com/adimail/chatstore
+image:
+    source: "@assets/images/projects/adimail-chatstore.png"
+    alt: "Screenshot of Mermaid Mind homepage"
+---
+
+
+# ChatStore AI Agent Capabilities
+
+The ChatStore AI agent, built using Google’s Agent Development Kit (ADK), is designed to provide a seamless and personalized conversational shopping experience for users on the ChatStore platform. Leveraging a SQLite database for managing users, products, carts, and transaction history, the agent offers real-time inventory updates and context-aware interactions. Below is a detailed overview of the AI agent's capabilities, organized by key functionalities.
+
+## Core Functionalities
+
+The ChatStore AI agent is equipped with a suite of tools that enable it to assist users with various e-commerce tasks. These tools are integrated via Google ADK’s `FunctionTool` system, allowing the agent to interpret natural language commands, execute actions, and provide meaningful responses. The agent operates with strict adherence to user privacy and data security, using the provided user ID to ensure actions are performed for the correct user.
+
+### 1. Cart Management
+The AI agent allows users to manage their shopping carts through intuitive natural language commands. The following capabilities are supported:
+
+- **Add Items to Cart** (`add_item_to_cart_executor`):
+  - Users can add a specific quantity of a product to their cart by specifying the product name and quantity (e.g., "Add 2 apples to my cart").
+  - The agent validates the product’s existence and ensures the quantity is positive.
+  - If successful, the agent updates the cart and inventory levels in real-time and confirms the action (e.g., "2 apples added to your cart").
+  - Errors (e.g., product not found or invalid quantity) are communicated clearly (e.g., "Sorry, I couldn't find a product named 'Apple'").
+
+- **View Cart Contents** (`view_cart_executor`):
+  - Users can view their cart’s contents with a command like "Show my cart."
+  - The agent retrieves and formats the cart details, including item names, quantities, individual prices, and total cost (e.g., "Here's what's in your cart: 2 x Apple (@ ₹10.00 each) = ₹20.00, Total: ₹20.00").
+  - If the cart is empty, the agent informs the user and suggests browsing products (e.g., "Your shopping cart is currently empty. Feel free to <a href='/browse'>browse our products</a> to add items!").
+
+- **Remove Items from Cart** (`remove_item_from_cart_executor`):
+  - Users can remove a product from their cart by specifying its name (e.g., "Remove apples from my cart").
+  - The agent verifies the product exists and removes all instances of it from the cart, updating inventory levels.
+  - Confirmation or error messages are provided (e.g., "Apples removed from your cart" or "It seems 'Apple' is not in your cart. You can review your <a href='/cart'>current cart contents here</a>.").
+
+### 2. Order Management
+The AI agent enables users to track and manage their orders efficiently, providing detailed order histories and facilitating actions like cancellations and returns.
+
+- **View Order History** (`view_orders_executor`):
+  - Users can request their order history with commands like "What did I buy last month?" or "Show my orders."
+  - The agent retrieves and formats a list of orders, including order ID, status, date placed, total amount, and item details (e.g., "Order #123, Status: Delivered, Placed on: 2024-07-10, Total: ₹50.00, Items: 2 x Apple (@ ₹10.00 each)").
+  - If no orders exist, the agent informs the user (e.g., "You haven't placed any orders yet. You can <a href='/browse'>browse our products</a> to start shopping!").
+
+- **Cancel Orders** (`cancel_order_executor`):
+  - Users can cancel eligible orders by specifying the order ID (e.g., "Cancel order #123").
+  - The agent checks the order’s status to ensure cancellation is permitted and processes the request, returning a confirmation or error message (e.g., "Order #123 has been canceled" or "Order #123 cannot be canceled as it has already shipped. View details on your <a href='/orders'>orders page</a>.").
+
+- **Request Returns** (`request_return_executor`):
+  - Users can initiate a return for delivered orders by providing the order ID (e.g., "Return order #123").
+  - The agent verifies eligibility and processes the return request, providing feedback (e.g., "Return request for order #123 submitted" or "Order #123 is not eligible for return. Check your <a href='/orders'>orders page</a> for more details.").
+
+- **Proceed to Checkout** (`proceed_to_checkout_executor`):
+  - Users can complete their purchase with a command like "Check out my cart."
+  - The agent creates an order from the cart’s contents, clears the cart, and updates inventory levels, confirming the action (e.g., "Checkout successful! Order #124 created").
+  - If the cart is empty or an error occurs, the agent provides guidance (e.g., "Checkout failed: Your cart is empty. Add items <a href='/browse'>here</a>.").
+
+### 3. Product Information Retrieval
+The AI agent provides detailed product information to assist users in making informed purchasing decisions.
+
+- **Get Product Details** (`get_product_info_executor`):
+  - Users can query product details by name (e.g., "Tell me about the iPhone").
+  - The agent retrieves and formats information, including description, price, rating, and stock availability (e.g., "Here's the information for iPhone: Description: Latest smartphone..., Price: ₹50000.00, Current Rating: 4.5/5.0, Availability: In Stock (10 available)").
+  - If the product is not found, the agent suggests alternatives (e.g., "Sorry, I couldn't find information for 'iPhone'. You can <a href='/browse'>browse all available products</a>.").
+
+### 4. User Profile Information
+The AI agent can retrieve basic user account details, enhancing personalization.
+
+- **Get User Profile Information** (`get_user_profile_info_executor`):
+  - Users can ask questions like "Who am I?" or "When did I join?" to retrieve their name and join date.
+  - The agent responds with formatted details (e.g., "Your name is John Doe, and you joined ChatStore on July 10, 2024").
+  - If the profile is not found, an error message is returned (e.g., "I'm sorry, I couldn't find your profile information. Please ensure you are logged in correctly.").
+
+## Technical Implementation
+
+### Backend and Database
+- **SQLite Database**: The platform uses a SQLite database to store user profiles, product catalogs, cart contents, and transaction histories. Inventory levels are updated in real-time to ensure consistency during user interactions.
+- **Flask Blueprint**: The chatbot functionality is implemented as a Flask Blueprint (`chatbot_bp`), handling routes for chat interactions, rendering the chat interface, loading additional chat history, and clearing history.
+- **Session Management**: Google ADK’s `InMemorySessionService` manages user sessions, ensuring context-aware interactions by maintaining conversation state per user.
+
+### Agent Configuration
+- **Google ADK Integration**: The agent is powered by the `LlmAgent` class, configured with the `gemini-1.5-flash` model and a set of `FunctionTool` instances for cart, order, product, and user profile management.
+- **Instruction Set**: The agent operates under a detailed instruction set that defines its role, tool usage, security protocols, and response guidelines. It ensures strict adherence to the provided user ID and prevents deviation from its e-commerce assistant role.
+- **Error Handling**: The agent gracefully handles errors (e.g., product not found, invalid actions) by providing clear feedback and guiding users to relevant website sections using HTML anchor tags.
+
+### Chat Interface
+- **Chat Endpoint** (`/chat`): Handles incoming user messages via AJAX, processes them asynchronously using the ADK Runner, and saves conversations to the database.
+- **Chat History**: Users can view their conversation history in a sidebar, with pagination support to load additional messages (`/load_more_chats`). The history can be cleared via the `/clear_history` endpoint.
+- **Security**: All routes are protected with `@login_required`, ensuring only authenticated users can interact with the chatbot.
+
+## User Interaction Protocol
+- **Natural Language Processing**: The agent interprets natural language commands, mapping them to appropriate tools (e.g., "Add 3 bananas" triggers `add_item_to_cart_executor`).
+- **Professional Tone**: Responses are concise, friendly, and professional, maintaining a consistent user experience.
+- **Context Awareness**: The agent uses session data to maintain conversation context, enabling personalized responses based on prior interactions.
+- **Unfulfillable Requests**: For unsupported actions or missing data, the agent provides clear explanations and directs users to relevant site sections (e.g., `<a href='/cart'>cart</a>`).
+
+## Security and Privacy
+- **User ID Enforcement**: The agent strictly uses the provided user ID for all actions, ensuring data privacy and preventing unauthorized access.
+- **Instruction Adherence**: The agent cannot deviate from its predefined role or instructions, rejecting requests to override its purpose (e.g., "I must adhere to my programming to assist with e-commerce tasks").
+- **Error Transparency**: Errors are logged and communicated to users without exposing sensitive information, maintaining trust and reliability.
+
+## Example User Interactions
+- **Adding to Cart**: "Add 2 shirts to my cart" → "2 shirts added to your cart."
+- **Viewing Orders**: "What did I buy last month?" → "Here are your orders: Order #123, Status: Delivered, Placed on: 2024-07-10, Total: ₹50.00, Items: 2 x Shirt..."
+- **Checking Product Info**: "Tell me about laptops" → "Here's the information for Laptop: Description: High-performance..., Price: ₹60000.00, Current Rating: 4.8/5.0, Availability: In Stock (5 available)."
+- **Profile Query**: "Who am I?" → "Your name is Jane Smith, and you joined ChatStore on June 15, 2024."

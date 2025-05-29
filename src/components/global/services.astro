@@ -1,0 +1,233 @@
+---
+import Title from "@components/global/Title.astro";
+import { getLangFromUrl, useTranslations, useTranslatedPath } from "@i18n/utils";
+import { imageConfig } from "astro:assets";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+const techStacks = [
+	{
+		title: "Full-Stack Development",
+		icon: "react-original.svg",
+		items: ["React", "Node.js", "Next.JS", "Flask", "FastAPI", "Streamlit"],
+	},
+	{
+		title: "Reinforcement Learning",
+		icon: "tensorflow-original.svg",
+		items: ["DQN", "PPO", "Custom Control Agents"],
+	},
+	{
+		title: "AI/ML Frameworks",
+		icon: "pytorch-logo.png",
+		items: ["TensorFlow", "PyTorch", "Scikit-learn", "OpenCV"],
+	},
+	{
+		title: "MLOps/DevOps",
+		icon: "docker-original.svg",
+		items: ["Docker", "GitHub Actions", "MLflow", "AWS"],
+	},
+	{
+		title: "NLP & Vision Models",
+		icon: "huggingface_logo.svg",
+		items: ["Transformers (Hugging Face)", "CNNs"],
+	},
+	{
+		title: "Data Engineering",
+		icon: "aws.svg",
+		items: ["ETL pipelines", "Web scraping (Selenium, BeautifulSoup)"],
+	},
+];
+
+const solutions = [
+	"Web Platforms with ML Models",
+	"Computer Vision Systems",
+	"Web Scrapers",
+	"AI Agents",
+	"IoT Intelligent Systems",
+	"ETL Pipelines",
+	"Real-time Data Dashboards",
+	"Task Automations",
+	"Auto-generated Reports",
+	"Data Entry Pipelines",
+	"Chatbots",
+];
+
+const services = [
+	{
+		title: "Custom AI Solutions",
+		icon: "customai.png",
+		description: "Tailored artificial intelligence solutions designed to meet your specific business needs and challenges.",
+	},
+	{
+		title: "Automation & Data Engineering",
+		icon: "dataeng.png",
+		description: "Streamline your workflows and transform raw data into actionable insights with our engineering expertise.",
+	},
+	{
+		title: "MLOps & Deployment Pipelines",
+		icon: "ops.png",
+		description: "End-to-end machine learning operations and deployment solutions for seamless AI integration.",
+	},
+	{
+		title: "End-to-End Web Applications",
+		icon: "web.png",
+		description: "Full-stack web applications that combine beautiful interfaces with powerful AI capabilities.",
+	},
+];
+---
+
+<section class="isolate px-6 py-24 sm:py-32 lg:px-8">
+	<div class="absolute inset-x-0 top-[-10rem] transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]" aria-hidden="true">
+		<div class="gradient-element"></div>
+	</div>
+	<div class="mx-auto max-w-7xl">
+		<!-- Tech Stack Section -->
+		<Title class="pb-10 pt-20 uppercase" title={t("services.title")} subtitle={t("services.subtitle")} />
+
+		<section id="projects" class:list={["section py-12"]}>
+			<div class="col-span-12 col-start-1 mx-auto max-w-7xl">
+				<ol class="grid grid-cols-1 gap-16 md:grid-cols-2 lg:gap-24">
+					{
+						techStacks.map((stack, i) => (
+					<div class="tech-card group cursor-pointer rounded-[2rem] p-8" data-index={i}>
+						<div class="mb-6 flex items-center gap-4">
+							<img src={"/icons/" + stack.icon} alt={stack.title} class="h-12 w-12 transition-transform group-hover:scale-110" />
+							<h3 class="text-xl font-bold md:text-2xl">{stack.title}</h3>
+						</div>
+						<div class="text-gray-600 md:text-lg">{stack.items.join(", ")}</div>
+					</div>
+				))
+					}
+				</ol>
+			</div>
+		</section>
+
+		<!-- Services Section -->
+		<div class="my-40">
+			<h2 class="mb-12 text-center text-4xl font-bold md:text-7xl">Our Services</h2>
+
+			<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+				{
+					services.map((service) => (
+						<div class="service-card flex flex-col items-center justify-center p-10 text-center">
+							<img src={"/images/services/" + service.icon} alt={service.title} class="mb-6 h-16" />
+							<h3 class="text-xl font-semibold text-black">{service.title}</h3>
+							<p class="mt-4 text-gray-700">{service.description}</p>
+						</div>
+					))
+				}
+			</div>
+		</div>
+
+		<!-- Solutions Grid -->
+		<div class="mt-20">
+			<h2 class="mb-12 text-center text-4xl font-bold md:text-7xl">What We Can Build for You</h2>
+			<div class="solutions-grid grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-10">
+				{
+					solutions.map((solution, index) => {
+						const isBlack = Math.random() < 0.5;
+						const bgClass = isBlack ? "bg-black text-white" : "bg-[#b7e1ff] text-black";
+
+						return (
+							<div class={`${bgClass} solution-pill rounded-full p-4`}>
+								<p class="text-center text-lg font-semibold md:text-xl">{solution}</p>
+							</div>
+						);
+					})
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.gradient-element {
+		@apply relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem];
+		clip-path: polygon(
+			74.1% 44.1%,
+			100% 61.6%,
+			97.5% 26.9%,
+			85.5% 0.1%,
+			80.7% 2%,
+			72.5% 32.5%,
+			60.2% 62.4%,
+			52.4% 68.1%,
+			47.5% 58.3%,
+			45.2% 34.5%,
+			27.5% 76.7%,
+			0.1% 64.9%,
+			17.9% 100%,
+			27.6% 76.8%,
+			76.1% 97.7%,
+			74.1% 44.1%
+		);
+	}
+</style>
+
+<script>
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	gsap.registerPlugin(ScrollTrigger);
+
+	function init() {
+		const cards = gsap.utils.toArray(".tech-card");
+		
+		gsap.to(cards, {
+			scrollTrigger: {
+				trigger: ".tech-grid",
+				start: "top bottom", // when grid top enters viewport bottom
+				end: "bottom top", // until grid bottom reaches viewport top
+				scrub: true, // tie animation progress to scrollbar
+			},
+			// move odd cards right, even cards left by 25% of their width
+			xPercent: (i) => (i % 2 ? 25 : -25),
+			// optionally also spread vertically:
+			yPercent: (i) => (i < cards.length / 2 ? -10 : 10),
+			ease: "none",
+			stagger: 0, // instant per-card, since direction is computed
+		});
+
+		const services = gsap.utils.toArray(".service-card");
+		gsap.from(services, {
+			scrollTrigger: {
+				trigger: ".service-card",
+				start: "top 90%",
+				end: "top 60%",
+				scrub: false,
+				markers: false,
+			},
+			opacity: 0,
+			scale: 0.8,
+			stagger: 0.2,
+			"--clip": "100%",
+			ease: "power3.out",
+		});
+
+		const pills = gsap.utils.toArray(".solution-pill");
+		gsap.to(pills, {
+			scrollTrigger: {
+				trigger: ".solutions-grid",
+				start: "top bottom",
+				end: "bottom top",
+				scrub: 1,
+			},
+			xPercent: -20,
+			stagger: 0.1,
+			ease: "none",
+		});
+	}
+
+	document.removeEventListener("DOMContentLoaded", init);
+	document.addEventListener("DOMContentLoaded", init);
+</script>
+
+<style is:global>
+	.tech-card,
+	.service-card,
+	.solution-pill {
+		--clip: 0%;
+		clip-path: inset(var(--clip) round 1rem);
+	}
+</style>

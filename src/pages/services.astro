@@ -1,0 +1,16 @@
+---
+import ServicesComponent from "@/components/global/services.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { AstroSeoProps } from "@astrolib/seo";
+
+const seo: AstroSeoProps = {
+	title: "Services we offer | APEXAI Studio",
+	description:
+		"APEXAI Studio offers a range of services to help you build and deploy AI solutions effectively.",
+	canonical: "https://apexai.company/Services/",
+};
+---
+
+<BaseLayout seo={seo}>
+	<ServicesComponent />
+</BaseLayout>
