@@ -1,14 +1,9 @@
 {
-	"name": "@APEXAIoss/APEXAI",
+	"name": "APEXAI",
 	"type": "module",
 	"version": "0.0.1",
 	"private": true,
 	"description": "APEXAI.co website",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/APEXAIoss/APEXAI.git"
-	},
-	"bugs": "https://github.com/APEXAIoss/APEXAI/issues",
 	"homepage": "https://apexai.company",
 	"files": [
 		"*"
@@ -22,7 +17,6 @@
 		"pwa:generate-assets": "pwa-assets-generator --preset minimal public/logo.svg"
 	},
 	"dependencies": {
-		"@astrojs/image": "^0.18.0",
 		"@astrojs/mdx": "4.0.8",
 		"@astrojs/rss": "4.0.11",
 		"@astrojs/sitemap": "3.2.1",
