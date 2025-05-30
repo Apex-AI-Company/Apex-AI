@@ -112,7 +112,7 @@ const faqs = [
 								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
 							</svg>
 						</summary>
-						<p class="px-11 pb-11 font-light text-zinc-200">{answer}</p>
+						<p class="px-11 pb-11 font-light text-zinc-200" set:html={answer} />
 					</details>
 				))
 			}
