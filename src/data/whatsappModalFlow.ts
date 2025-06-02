@@ -123,7 +123,7 @@ export const modalFlow: ModalScreen[] = [
 		heading: "Our Technology Powerhouse",
 		contentType: "info",
 		infoContent: `
-      <p class="mb-2">We leverage cutting-edge technologies including (but not limited to):</p>
+      <p class="mb-2">We work with a wide range of technologies including (but not limited to):</p>
       <ul class="list-disc list-inside text-sm space-y-1">
         <li><strong>Full-Stack:</strong> React, Node.js, Next.JS, Python (Flask, FastAPI), Streamlit</li>
         <li><strong>AI/ML Frameworks:</strong> TensorFlow, PyTorch, Scikit-learn, Keras, OpenCV</li>
