@@ -1,118 +1,327 @@
 ---
-import { Image } from "astro:assets"
+import { Image } from "astro:assets";
+import { modalFlow, WHATSAPP_PHONE_NUMBER } from "@/data/whatsappModalFlow.ts";
 
-export interface Props {
-  phoneNumber: string;
-  prefilledMessage?: string;
-}
-
-const { 
-  phoneNumber, 
-  prefilledMessage = "Hello! I'd like to chat about your services." 
-} = Astro.props;
-
-const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(prefilledMessage)}`;
+const initialScreenIdConst = modalFlow[0]?.id || "s1";
+const modalFlowJSON = JSON.stringify(modalFlow);
+const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 ---
 
-<div id="whatsapp-widget" class="fixed bottom-4 left-4 z-[3001] print:hidden">
+<div id="interactive-modal-widget-container" class="fixed bottom-4 left-4 z-[3001] print:hidden">
   <button
-    id="whatsapp-toggle"
-    aria-label="Open WhatsApp chat"
-    aria-expanded="false"
-    aria-controls="whatsapp-chat-popup"
-  >
-    <Image height={50} width={50} src="/icons/WhatsApp.svg.webp" alt="Whatsapp" />
+    id="interactive-modal-toggle-btn"
+    aria-label="How can we help? Open interactive assistant"
+    class="cursor-pointer rounded-full border-none bg-transparent p-0 shadow-none">
+    <Image height={56} width={56} src="/icons/WhatsApp.svg.webp" alt="Open interactive assistant" class="rounded-full" />
   </button>
 
-  <!-- Chat Tab/Popup -->
   <div
-    id="whatsapp-chat-popup"
-    class="absolute bottom-full mb-3 w-64 sm:w-72 bg-white rounded-lg shadow-xl p-4 origin-bottom-left opacity-0 transform scale-90 translate-y-2 pointer-events-none transition-all duration-200 ease-out"
+    id="modal-overlay"
+    class="fixed inset-0 z-[3002] flex items-center justify-center bg-black bg-opacity-75 p-4 backdrop-blur-md"
+    style="display: none;"
     role="dialog"
     aria-modal="true"
-    aria-labelledby="whatsapp-chat-title"
-  >
-    <button 
-      id="whatsapp-close"
-      class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400 w-6 h-6 flex items-center justify-center text-lg font-bold" 
-      aria-label="Close WhatsApp chat popup"
-    >
-      ×
-    </button>
-    <p id="whatsapp-chat-title" class="text-md font-semibold text-gray-800 mb-3 pr-6">
-      Chat with us on WhatsApp
-    </p>
-    <a
-      href={whatsappLink}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="w-full flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-    >
-      <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.485"/>
-      </svg>
-      Chat on WhatsApp
-    </a>
+    aria-labelledby="modal-heading">
+
+    <!-- Modal Content -->
+    <div
+      id="modal-content-wrapper"
+      class="flex max-h-[90vh] w-full max-w-md transform flex-col rounded-xl bg-zinc-800 text-gray-100 shadow-2xl transition-all md:max-w-lg opacity-0 scale-95">
+
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between rounded-t-xl border-b border-zinc-700 p-4 md:p-5">
+        <h3 id="modal-heading" class="text-lg font-semibold text-gray-50 md:text-xl">
+          {/* Heading will be set by JS */}
+        </h3>
+        <button
+          id="modal-close-btn"
+          type="button"
+          class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-zinc-600 hover:text-gray-50"
+          aria-label="Close modal">
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div id="modal-body-content" class="space-y-4 overflow-y-auto p-4 md:p-5">
+        <p id="modal-subheading" class="text-xs italic text-gray-400 md:text-sm" style="display: none;"></p>
+        <p id="modal-question" class="text-sm leading-relaxed text-gray-300 md:text-base" style="display: none;"></p>
+
+        <div id="modal-info-content-area" class="prose prose-sm prose-invert max-w-none text-gray-300" style="display: none;">
+          {/* Info content will be set by JS */}
+        </div>
+
+        <div id="modal-options-area" style="display: none;">
+          <ul id="modal-options-list" class="space-y-2.5">
+            {/* Options will be generated by JS */}
+          </ul>
+        </div>
+
+        <div id="modal-text-input-area" style="display: none;">
+          <label id="modal-input-label" for="modal-text-input-field" class="mb-1.5 block text-sm font-medium text-gray-200" style="display: none;"></label>
+          <textarea
+            id="modal-text-input-field"
+            rows="3"
+            class="block w-full rounded-lg border border-zinc-600 bg-zinc-700 p-2.5 text-sm text-gray-50 placeholder-gray-400 focus:border-sky-500 focus:ring-sky-500"
+            placeholder="Type here...">
+          </textarea>
+          <button
+            id="modal-text-input-submit-btn"
+            class="mt-3 w-full rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-colors duration-150 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-75">
+            {/* Button text will be set by JS */}
+          </button>
+          <button
+            id="modal-text-input-back-btn"
+            class="mt-2 w-full rounded-lg bg-zinc-600 px-4 py-2.5 text-left text-sm font-medium text-white transition-colors duration-150 hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-opacity-75">
+            « Go Back
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<script>
-  // WhatsApp popup functionality
-  document.addEventListener('DOMContentLoaded', function() {
-    const toggleButton = document.getElementById('whatsapp-toggle');
-    const popup = document.getElementById('whatsapp-chat-popup');
-    const closeButton = document.getElementById('whatsapp-close');
-    const widget = document.getElementById('whatsapp-widget');
-    
+<script define:vars={{ modalFlowData: modalFlowJSON, whatsappNumData: whatsappPhoneNumberConst, initialScreenIdData: initialScreenIdConst }}>
+  // Plain JavaScript implementation
+  document.addEventListener('DOMContentLoaded', () => {
+    const modalFlow = JSON.parse(modalFlowData);
+    const WHATSAPP_PHONE_NUMBER = whatsappNumData;
+    const initialScreenId = initialScreenIdData;
+
+    let currentScreenId = initialScreenId;
+    let userInput = '';
+    let selectedChallengeType = '';
     let isOpen = false;
-    
-    function openPopup() {
+
+    // DOM Elements
+    const toggleBtn = document.getElementById('interactive-modal-toggle-btn');
+    const overlay = document.getElementById('modal-overlay');
+    const modalWrapper = document.getElementById('modal-content-wrapper');
+    const closeBtn = document.getElementById('modal-close-btn');
+
+    const headingEl = document.getElementById('modal-heading');
+    const subheadingEl = document.getElementById('modal-subheading');
+    const questionEl = document.getElementById('modal-question');
+
+    const infoContentArea = document.getElementById('modal-info-content-area');
+    const optionsArea = document.getElementById('modal-options-area');
+    const optionsList = document.getElementById('modal-options-list');
+
+    const textInputArea = document.getElementById('modal-text-input-area');
+    const inputLabelEl = document.getElementById('modal-input-label');
+    const inputField = document.getElementById('modal-text-input-field');
+    const inputSubmitBtn = document.getElementById('modal-text-input-submit-btn');
+    const inputBackBtn = document.getElementById('modal-text-input-back-btn');
+
+    function getCurrentScreen() {
+      return modalFlow.find(screen => screen.id === currentScreenId) || modalFlow[0];
+    }
+
+    function resetModalState() {
+      currentScreenId = initialScreenId;
+      userInput = '';
+      selectedChallengeType = '';
+      if (inputField) inputField.value = '';
+    }
+
+    function openModal() {
       isOpen = true;
-      popup.classList.remove('opacity-0', 'scale-90', 'translate-y-2', 'pointer-events-none');
-      popup.classList.add('opacity-100', 'scale-100', 'translate-y-0');
-      toggleButton.setAttribute('aria-expanded', 'true');
+      resetModalState();
+      renderScreen();
+      if (overlay) overlay.style.display = 'flex';
+      if (modalWrapper) {
+        // Simple fade-in / scale-up (can be enhanced with classes)
+        setTimeout(() => {
+            modalWrapper.style.opacity = '1';
+            modalWrapper.style.transform = 'scale(1)';
+        }, 10); // Small delay for transition
+      }
+      if (document.body) document.body.style.overflow = 'hidden';
     }
-    
-    function closePopup() {
+
+    function closeModal() {
       isOpen = false;
-      popup.classList.remove('opacity-100', 'scale-100', 'translate-y-0');
-      popup.classList.add('opacity-0', 'scale-90', 'translate-y-2', 'pointer-events-none');
-      toggleButton.setAttribute('aria-expanded', 'false');
+      if (modalWrapper) {
+        modalWrapper.style.opacity = '0';
+        modalWrapper.style.transform = 'scale(0.95)';
+      }
+      if (overlay) {
+        setTimeout(() => { // Wait for transition
+            overlay.style.display = 'none';
+        }, 200); // Match transition duration
+      }
+      if (document.body) document.body.style.overflow = '';
     }
-    
-    // Toggle popup when button is clicked
-    toggleButton.addEventListener('click', function(e) {
-      e.stopPropagation();
-      if (isOpen) {
-        closePopup();
-      } else {
-        openPopup();
+
+    function renderScreen() {
+      const screen = getCurrentScreen();
+      if (!screen) return;
+
+      // Set heading
+      if (headingEl) headingEl.textContent = screen.heading;
+      if (overlay) overlay.setAttribute('aria-labelledby', 'modal-heading');
+
+
+      // Set subheading
+      if (subheadingEl) {
+        if (screen.subHeading) {
+          subheadingEl.textContent = screen.subHeading;
+          subheadingEl.style.display = 'block';
+        } else {
+          subheadingEl.style.display = 'none';
+        }
       }
-    });
-    
-    // Close popup when close button is clicked
-    closeButton.addEventListener('click', function(e) {
-      e.stopPropagation();
-      closePopup();
-    });
-    
-    // Close popup when clicking outside
-    document.addEventListener('click', function(e) {
-      if (isOpen && !widget.contains(e.target)) {
-        closePopup();
+
+      // Set question
+      if (questionEl) {
+        if (screen.question) {
+          questionEl.textContent = screen.question;
+          questionEl.style.display = 'block';
+        } else {
+          questionEl.style.display = 'none';
+        }
       }
-    });
-    
-    // Close popup on escape key
-    document.addEventListener('keydown', function(e) {
+
+      // Hide all content areas initially
+      if (infoContentArea) infoContentArea.style.display = 'none';
+      if (optionsArea) optionsArea.style.display = 'none';
+      if (textInputArea) textInputArea.style.display = 'none';
+
+      // Render based on contentType
+      if (screen.contentType === 'info') {
+        if (infoContentArea && screen.infoContent) {
+          infoContentArea.innerHTML = screen.infoContent;
+          infoContentArea.style.display = 'block';
+        }
+        // Info screens can also have options (like Path 3)
+        if (screen.options && screen.options.length > 0 && optionsArea && optionsList) {
+            optionsArea.style.display = 'block';
+            optionsList.innerHTML = ''; // Clear previous options
+            screen.options.forEach(option => {
+                const li = document.createElement('li');
+                const button = document.createElement('button');
+                button.textContent = option.text;
+                button.className = `w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium text-white transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-opacity-75 ${
+                                option.text.toLowerCase().includes('back')
+                                ? 'bg-zinc-600 hover:bg-zinc-700 focus:ring-zinc-500'
+                                : 'bg-sky-600 hover:bg-sky-700 focus:ring-sky-500'
+                            }`;
+                button.onclick = () => handleOptionClick(option);
+                li.appendChild(button);
+                optionsList.appendChild(li);
+            });
+        }
+      } else if (screen.contentType === 'options') {
+        if (optionsArea && optionsList && screen.options) {
+          optionsArea.style.display = 'block';
+          optionsList.innerHTML = ''; // Clear previous options
+          screen.options.forEach(option => {
+            const li = document.createElement('li');
+            const button = document.createElement('button');
+            button.textContent = option.text;
+            button.className = `w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium text-white transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-opacity-75 ${
+                                option.text.toLowerCase().includes('back')
+                                ? 'bg-zinc-600 hover:bg-zinc-700 focus:ring-zinc-500'
+                                : 'bg-sky-600 hover:bg-sky-700 focus:ring-sky-500'
+                            }`;
+            button.onclick = () => handleOptionClick(option);
+            li.appendChild(button);
+            optionsList.appendChild(li);
+          });
+        }
+      } else if (screen.contentType === 'textInput') {
+        if (textInputArea) textInputArea.style.display = 'block';
+        if (inputLabelEl && screen.inputLabel) {
+          inputLabelEl.textContent = screen.inputLabel;
+          inputLabelEl.style.display = 'block';
+        } else if (inputLabelEl) {
+          inputLabelEl.style.display = 'none';
+        }
+        if (inputField && screen.inputPlaceholder) {
+          inputField.placeholder = screen.inputPlaceholder;
+        }
+        if (inputSubmitBtn && screen.finalActionText) {
+          inputSubmitBtn.textContent = screen.finalActionText;
+        }
+        if (inputField) inputField.value = userInput; // Restore previous input if any for this step
+        updateSubmitButtonState();
+      }
+    }
+
+    function handleOptionClick(option) {
+      if (!option) return;
+      if (option.action === 'nextScreen' && option.nextScreenId) {
+        if (currentScreenId === 's2_path2') { // When choosing challenge type
+          selectedChallengeType = option.text;
+        }
+        currentScreenId = option.nextScreenId;
+        userInput = ''; // Reset user input when navigating
+        if(inputField) inputField.value = '';
+        renderScreen();
+      } else if (option.action === 'openWhatsApp' && option.whatsappMessageTemplate) {
+        openWhatsAppWithMessage(option.whatsappMessageTemplate);
+      }
+    }
+
+    function handleTextInputSubmit() {
+      const screen = getCurrentScreen();
+      if (screen && screen.action === 'openWhatsApp' && screen.whatsappMessageTemplate) {
+        userInput = inputField ? inputField.value : '';
+        let message = screen.whatsappMessageTemplate
+          .replace('[USER_INPUT]', userInput.trim())
+          .replace('[CHALLENGE_TYPE]', selectedChallengeType || 'a specific project');
+        openWhatsAppWithMessage(message);
+      }
+    }
+
+    function openWhatsAppWithMessage(messageContent) {
+      const encodedMessage = encodeURIComponent(messageContent);
+      const whatsappLink = `https://wa.me/${WHATSAPP_PHONE_NUMBER}?text=${encodedMessage}`;
+      window.open(whatsappLink, '_blank');
+      closeModal();
+    }
+
+    function updateSubmitButtonState() {
+        if (inputSubmitBtn && inputField) {
+            const trimmedInput = inputField.value.trim();
+            if (trimmedInput === '') {
+                inputSubmitBtn.disabled = true;
+                inputSubmitBtn.classList.add('opacity-60', 'cursor-not-allowed');
+            } else {
+                inputSubmitBtn.disabled = false;
+                inputSubmitBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+            }
+        }
+    }
+
+    // Event Listeners
+    if (toggleBtn) toggleBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (overlay) {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) { // Only close if overlay itself is clicked
+                closeModal();
+            }
+        });
+    }
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && isOpen) {
-        closePopup();
+        closeModal();
       }
     });
-    
-    // Prevent popup from closing when clicking inside it
-    popup.addEventListener('click', function(e) {
-      e.stopPropagation();
-    });
+
+    if (inputSubmitBtn) inputSubmitBtn.addEventListener('click', handleTextInputSubmit);
+    if (inputBackBtn) {
+        inputBackBtn.addEventListener('click', () => {
+            currentScreenId = 's2_path2'; // Specific back navigation for text input screen
+            userInput = ''; // Clear input when going back from describe step
+            if(inputField) inputField.value = '';
+            renderScreen();
+        });
+    }
+    if (inputField) {
+        inputField.addEventListener('input', updateSubmitButtonState);
+    }
+
   });
 </script>
