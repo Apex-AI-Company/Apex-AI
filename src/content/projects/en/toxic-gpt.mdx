@@ -1,0 +1,60 @@
+---
+pubDate: 2024-07-26
+author:
+  name: Rohit Kshirsagar
+  link: https://rohitkshirsagar19.github.io/
+title: ToxicGPT
+description: "Fine-tuned GPT-2 using QLoRA for controlled toxic text generation and multimodal experimentation"
+link: https://github.com/aissm-deeplearning/llm
+image:
+  source: "@assets/images/projects/toxic-gpt-preview.jpg"
+  alt: "Screenshot of ToxicGPT interface with Flask backend and React frontend"
+---
+
+## About ToxicGPT
+
+ToxicGPT began as an exploration into bias and toxicity in language models, and evolved into a hands-on deep dive into alignment, lightweight fine-tuning, and ethical deployment. We fine-tuned GPT-2 on the Jigsaw Toxic Comment dataset using **QLoRA** and **PEFT** (Parameter-Efficient Fine-Tuning), achieving faster training with minimal compute.
+
+Once trained, the model was deployed via a **Flask** backend with session tracking and exposed to a **React.js** frontend that allowed users to experiment with toxicity prompts. To push the boundaries of the project further, we integrated **Stable Diffusion** to generate **multimodal outputs** (image generation based on text prompts), adding a fascinating visual layer to toxic or aligned text.
+
+- **Efficient Fine-Tuning with QLoRA**  
+  Applied 4-bit quantization and LoRA adapters to fine-tune GPT-2 on toxic text using minimal resources.
+
+- **Flask API & Session Logging**  
+  Built a fast, lightweight REST API with per-session tracking for input prompts, outputs, and feedback.
+
+- **Interactive React Frontend**  
+  Developed an intuitive interface with prompt input, generation preview.
+
+- **MLflow for Experiment Tracking**  
+  All hyperparameters, model versions, and metrics logged using MLflow for reproducibility and comparison.
+
+- **DVC for Dataset & Model Versioning**  
+  Managed large model checkpoints and the Jigsaw dataset efficiently with DVC for clean collaboration and history.
+
+---
+
+## Tech Stack
+
+- **Model & Training:** Transformers, PEFT, QLoRA
+- **Experiment Tracking:** MLflow, DVC
+- **Deployment:** Flask
+- **Frontend:** React.js, Tailwind CSS, shadcn/ui
+- **Multimodal:** Stable Diffusion (via diffusers), Hugging Face pipelines
+- **Infrastructure:** Google Colab + GPU, GitHub Actions for CI/CD
+
+---
+
+## Credits
+
+- **Hugging Face Transformers & Datasets:** For fast integration of pretrained models and data.
+- **MLflow:** Experiment tracking with ease.
+- **DVC:** Seamless version control for datasets and model weights.
+- **Stable Diffusion:** Generative backbone for visualizing text in image form.
+
+---
+
+## Author
+
+Built by [Rohit Kshirsagar](https://rohitkshirsagar19.github.io/) & [Rishabh Kothari](https://rishabhk103.github.io/), founding engineer's at ApexAI and AI systems enthusiast.  
+Check out more projects on [GitHub](https://github.com/rohitkshirsagar19) or reach out via [LinkedIn](https://linkedin.com/in/rohitkshirsagar19).

@@ -1,0 +1,139 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import Title from '@components/global/Title.astro';
+import WokCard from '@components/work/WokCard.astro';
+import { getLangFromUrl, useTranslatedPath, useTranslations } from '@i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
+const { class: className } = Astro.props;
+
+const allProjects = (await getCollection('projects'))
+	.filter((prj) => {
+		const [postLang, ...slug] = prj.slug.split('/');
+		return postLang === lang;
+	})
+	.map((prj) => {
+		const [postLang, slug] = prj.slug.split('/');
+
+		return {
+			...prj,
+			slug: slug,
+		};
+	})
+	.sort((a, b) => Number(b.data.pubDate) - Number(a.data.pubDate));
+---
+
+<BaseLayout>
+	<section class='isolate px-6 py-24 sm:py-32 lg:px-8'>
+		<div class='absolute inset-x-0 top-[-10rem] transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]' aria-hidden='true'>
+			<div class='gradient-element'></div>
+		</div>
+
+		<Title class='pb-10 pt-20 uppercase' title='Projects' subtitle='Our projects' />
+
+		<section id='projects' class:list={['section work-preview-section pb-32', className]}>
+			<div class='col-span-12 col-start-1 mx-auto max-w-7xl'>
+				<h2 class='sr-only'>{t('projects')}</h2>
+				<ol class='grid grid-cols-1 gap-24 md:grid-cols-2 lg:gap-44'>
+					{
+						allProjects.map((project, index) => (
+							<WokCard
+								image={project.data.image.source}
+								project={project.data.title}
+								link={`/work/${project.slug}`}
+								class={
+									index % 2 === 0
+										? `md:col-start-1 md:row-start-${Math.floor(index / 2) * 2 + 1} md:row-span-2`
+										: `md:col-start-2 md:row-start-${Math.floor(index / 2) * 2 + 2} md:row-span-2`
+								}
+							/>
+						))
+					}
+				</ol>
+			</div>
+		</section>
+	</section>
+</BaseLayout>
+
+<style is:global>
+	.work-preview-section ol li img {
+		--clip: 0%;
+		clip-path: inset(var(--clip) round 0.5rem);
+	}
+</style>
+
+<script>
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	function init() {
+		const projects = gsap.utils.toArray('.work-preview-section ol li') as gsap.DOMTarget[];
+		const previews = gsap.utils.toArray('.work-preview-section ol li img') as gsap.DOMTarget[];
+
+		// Image growth animation on scroll
+		previews.forEach((preview) => {
+			gsap.from(preview, {
+				scrollTrigger: {
+					trigger: preview,
+					start: 'top bottom',
+					end: 'center center',
+					scrub: 1,
+					markers: false,
+				},
+				ease: 'power3.out',
+				'--clip': '30%',
+			});
+		});
+
+		// Parallax effect for projects on desktop
+		if (window.innerWidth >= 768) {
+			projects.forEach((project) => {
+				gsap.to(project, {
+					scrollTrigger: {
+						trigger: '.work-preview-section ol',
+						start: 'top bottom',
+						end: 'bottom center',
+						scrub: 1,
+						markers: false,
+					},
+					ease: 'none',
+					y: `-100px`,
+				});
+			});
+		}
+	}
+
+	// Clean up previous event listeners and add new one
+	document.removeEventListener('DOMContentLoaded', init);
+	document.addEventListener('DOMContentLoaded', init);
+</script>
+
+<style>
+	.gradient-element {
+		@apply relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem];
+		clip-path: polygon(
+			74.1% 44.1%,
+			100% 61.6%,
+			97.5% 26.9%,
+			85.5% 0.1%,
+			80.7% 2%,
+			72.5% 32.5%,
+			60.2% 62.4%,
+			52.4% 68.1%,
+			47.5% 58.3%,
+			45.2% 34.5%,
+			27.5% 76.7%,
+			0.1% 64.9%,
+			17.9% 100%,
+			27.6% 76.8%,
+			76.1% 97.7%,
+			74.1% 44.1%
+		);
+	}
+</style>
