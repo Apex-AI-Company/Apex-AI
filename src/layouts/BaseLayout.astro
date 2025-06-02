@@ -6,6 +6,7 @@ import BackgroundTexture from "@components/global/BackgroundTexture.astro";
 import Footer from "@components/global/Footer.astro";
 import Navigation from "@components/global/Navigation.astro";
 import { getLangFromUrl } from "../i18n/utils";
+import WhatsAppButton from "@/components/global/WhatsAppButton.astro";
 
 const { pathname } = Astro.url;
 
@@ -82,5 +83,6 @@ function cursorFollowerActive() {
 		{cursorFollowerActive() && <BlobCursorFollower />}
 		<slot />
 		<Footer />
+		<WhatsAppButton phoneNumber="9834978407" />
 	</body>
 </html>
