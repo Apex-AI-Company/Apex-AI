@@ -1,0 +1,57 @@
+---
+pubDate: 2025-03-15
+author:
+  name: Parth Lhase
+  link: https://github.com/LhaseParth2610
+title: Smart Health AI
+description: "Full-stack ML system that predicts 8 diseases and supports user-driven retraining via FastAPI and MLflow"
+link: https://github.com/rohitkshirsagar19/multi-disease-predictor
+image:
+  source: "@assets/images/projects/smart-health-preview.jpg"
+  alt: "Screenshot of Smart Health AI web interface and prediction form"
+---
+
+## About Smart Health AI
+
+Smart Health AI is a robust full-stack ML-powered application that enables users to predict the risk of **eight major diseases** based on simple clinical inputs. Designed with a modular **FastAPI** backend and a snappy **React + TailwindCSS** frontend, the system goes a step further by enabling **user feedback loops** and **live retraining** of models—making it an end-to-end example of real-world MLOps.
+
+Each disease has its own prediction pipeline built using **scikit-learn**, with **MLflow** tracking model metrics and versions. Users can submit new data post-prediction, and an endpoint is available for **on-demand retraining**, keeping the models continually updated.
+
+- **Predicts 8 Diseases with ML Pipelines**  
+  Supports risk prediction for Anemia, Cardiovascular Disease, Heart Disease, Hepatitis C, Liver Disease, Lung Cancer, Stroke, and Thyroid Disease.
+
+- **Modular ML Pipelines Per Disease**  
+  Each disease prediction is powered by its own standalone scikit-learn pipeline, allowing easy updates, experimentation, and isolated debugging—ensuring better maintainability and control.
+
+- **MLflow-Powered MLOps**  
+  Model training runs, metrics, and artifacts are versioned and logged with MLflow.
+
+- **FastAPI Backend & Docker Deployment**  
+  Built for production with FastAPI and Docker Compose for quick orchestration of backend + frontend.
+
+- **Frontend with React + Vite + Tailwind**  
+  Sleek, responsive UI lets users input clinical data and view real-time predictions.
+
+---
+
+## Tech Stack
+
+- **Backend:** FastAPI, Uvicorn, Pydantic
+- **Frontend:** React.js, TypeScript, Vite, Tailwind CSS
+- **ML & MLOps:** scikit-learn, Joblib, MLflow
+- **Deployment & DevOps:** Docker, GitHub Actions, AWS
+- ***
+
+## Credits
+
+- **MLflow:** Clean and scalable experiment tracking for each disease pipeline.
+- **Docker Compose:** Smooth full-stack deployment in local and cloud environments.
+- **FastAPI:** Fast, async-ready Python backend powering predictions and feedback.
+- **scikit-learn + Joblib:** Traditional models, saved and reloaded efficiently.
+
+---
+
+## Author
+
+Built by [Rohit Kshirsagar](https://rohitkshirsagar19.github.io/), [Parth Lhase](https://github.com/LhaseParth2610) & [Rishabh Kothari](https://rishabhk103.github.io/) AI systems enthusiasts and founding engineers at ApexAI.  
+Check out more on [GitHub](https://github.com/rohitkshirsagar19) or connect via [LinkedIn](https://linkedin.com/in/rohitkshirsagar19).

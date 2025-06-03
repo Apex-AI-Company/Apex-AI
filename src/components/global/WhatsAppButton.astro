@@ -7,37 +7,46 @@ const modalFlowJSON = JSON.stringify(modalFlow);
 const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 ---
 
-<div id='interactive-modal-widget-container' class='fixed bottom-4 left-4 z-[3001] print:hidden'>
+<div id='interactive-modal-widget-container' class='fixed bottom-3 left-3 z-[3001] print:hidden sm:bottom-4 sm:left-4'>
 	<button
 		id='interactive-modal-toggle-btn'
 		aria-label='How can we help? Open interactive assistant'
-		class='cursor-pointer rounded-full border-none bg-transparent p-0 shadow-none'>
-		<Image height={56} width={56} src='/icons/WhatsApp.svg.webp' alt='Open interactive assistant' class='rounded-full' />
+		class='group z-[3001] relative cursor-pointer overflow-hidden rounded-full border-none bg-transparent p-0 shadow-lg transition-all duration-300 hover:shadow-xl active:scale-95'>
+		<div class='absolute inset-0 rounded-full bg-gradient-to-br from-green-400 to-green-600 opacity-0 transition-opacity duration-300 group-hover:opacity-20'></div>
+		<Image 
+			height={48} 
+			width={48} 
+			src='/icons/WhatsApp.svg.webp' 
+			alt='Open interactive assistant' 
+			class='relative z-[6006] rounded-full transition-transform duration-300 group-hover:scale-110 sm:h-14 sm:w-14' 
+		/>
+		<div class='absolute -inset-1 rounded-full bg-gradient-to-br from-green-400 to-green-600 opacity-20 blur-sm transition-opacity duration-300 group-hover:opacity-40'></div>
 	</button>
 
 	<div
 		id='modal-overlay'
-		class='pointer-events-none fixed inset-0 z-[3002]'
-		style='display: none;'
+		class='pointer-events-none fixed inset-0 z-[3002] bg-black/20 backdrop-blur-sm transition-all duration-300'
+		style='display: none; opacity: 0;'
 		role='dialog'
 		aria-modal='true'
 		aria-labelledby='modal-heading'>
 		<!-- Modal Content -->
 		<div
 			id='modal-content-wrapper'
-			class='pointer-events-auto absolute flex max-h-[90vh] w-full max-w-md scale-95 transform flex-col rounded-xl border border-gray-200 bg-white text-gray-800 opacity-0 shadow-2xl transition-all'
-			style='bottom: 70px; left: 4px;'>
+			class='pointer-events-auto absolute flex max-h-[85vh] w-[calc(100vw-1.5rem)] max-w-sm scale-90 transform flex-col rounded-2xl border border-gray-200/80 bg-white/95 text-gray-800 opacity-0 shadow-2xl backdrop-blur-xl transition-all duration-300 sm:max-w-md'
+			style='bottom: 60px; left: 0.75rem;'>
+			
 			<!-- Modal Header -->
-			<div class='flex items-center justify-between rounded-t-xl border-b border-gray-200 bg-gray-50 p-4 md:p-5'>
-				<h3 id='modal-heading' class='text-lg font-semibold text-gray-800 md:text-xl'>
+			<div class='flex items-center justify-between rounded-t-2xl border-b border-gray-200/50 bg-gradient-to-r from-gray-50/80 to-gray-100/80 p-3 backdrop-blur-sm sm:p-4'>
+				<h3 id='modal-heading' class='text-base font-semibold text-gray-800 sm:text-lg'>
 					{/* Heading will be set by JS */}
 				</h3>
 				<button
 					id='modal-close-btn'
 					type='button'
-					class='ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-500 hover:bg-gray-200 hover:text-gray-700'
+					class='group ml-auto inline-flex h-7 w-7 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 transition-all duration-200 hover:bg-gray-200/80 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300/50 sm:h-8 sm:w-8'
 					aria-label='Close modal'>
-					<svg class='h-5 w-5' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+					<svg class='h-4 w-4 transition-transform duration-200 group-hover:scale-110 sm:h-5 sm:w-5' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
 						<path
 							fill-rule='evenodd'
 							d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
@@ -48,16 +57,16 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 			</div>
 
 			<!-- Modal Body -->
-			<div id='modal-body-content' class='space-y-4 overflow-y-auto p-4 md:p-5'>
-				<p id='modal-subheading' class='text-xs italic text-gray-500 md:text-sm' style='display: none;'></p>
-				<p id='modal-question' class='text-sm leading-relaxed text-gray-600 md:text-base' style='display: none;'></p>
+			<div id='modal-body-content' class='flex-1 space-y-3 overflow-y-auto p-3 sm:space-y-4 sm:p-4'>
+				<p id='modal-subheading' class='text-xs italic text-gray-500 sm:text-sm' style='display: none;'></p>
+				<p id='modal-question' class='text-sm leading-relaxed text-gray-600 sm:text-base' style='display: none;'></p>
 
 				<div id='modal-info-content-area' class='prose prose-sm max-w-none text-gray-600' style='display: none;'>
 					{/* Info content will be set by JS */}
 				</div>
 
 				<div id='modal-options-area' style='display: none;'>
-					<ul id='modal-options-list' class='space-y-2.5'>
+					<ul id='modal-options-list' class='space-y-2'>
 						{/* Options will be generated by JS */}
 					</ul>
 				</div>
@@ -66,24 +75,24 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 					<label
 						id='modal-input-label'
 						for='modal-text-input-field'
-						class='mb-1.5 block text-sm font-medium text-gray-700'
+						class='mb-2 block text-sm font-medium text-gray-700'
 						style='display: none;'>
 					</label>
 					<textarea
 						id='modal-text-input-field'
 						rows='3'
-						class='block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-gray-800 placeholder-gray-500 focus:border-sky-600 focus:ring-sky-600'
+						class='block w-full rounded-lg border border-gray-300/60 bg-white/80 p-2.5 text-sm text-gray-800 placeholder-gray-400 backdrop-blur-sm transition-all duration-200 focus:border-sky-500 focus:bg-white focus:ring-2 focus:ring-sky-500/20 sm:text-base'
 						placeholder='Type here...'>
 					</textarea>
 					<button
 						id='modal-text-input-submit-btn'
-						class='mt-3 w-full rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-colors duration-150 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-75'>
+						class='mt-3 w-full rounded-lg bg-gradient-to-r from-green-600 to-green-700 px-4 py-2.5 text-sm font-medium text-white shadow-md transition-all duration-200 hover:from-green-700 hover:to-green-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:from-green-600 disabled:hover:to-green-700 sm:text-base'>
 						{/* Button text will be set by JS */}
 					</button>
 					<button
 						id='modal-text-input-back-btn'
-						class='mt-2 w-full rounded-lg bg-gray-500 px-4 py-2.5 text-left text-sm font-medium text-white transition-colors duration-150 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75'>
-						« Go Back
+						class='mt-2 w-full rounded-lg bg-gradient-to-r from-gray-500 to-gray-600 px-4 py-2.5 text-left text-sm font-medium text-white shadow-md transition-all duration-200 hover:from-gray-600 hover:to-gray-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-gray-400/50 focus:ring-offset-2 active:scale-[0.98] sm:text-base'>
+						← Go Back
 					</button>
 				</div>
 			</div>
@@ -136,25 +145,35 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 			if (!toggleBtn || !modalWrapper) return;
 
 			const btnRect = toggleBtn.getBoundingClientRect();
-			const modalRect = modalWrapper.getBoundingClientRect();
-
 			const viewportWidth = window.innerWidth;
 			const viewportHeight = window.innerHeight;
 
-			let leftPosition = btnRect.right + 10;
+			// For mobile, center the modal
+			if (viewportWidth < 640) { // sm breakpoint
+				const leftPosition = (viewportWidth - modalWrapper.offsetWidth) / 2;
+				const bottomPosition = viewportHeight - btnRect.top + 15;
+				
+				modalWrapper.style.position = 'fixed';
+				modalWrapper.style.left = `${Math.max(12, leftPosition)}px`;
+				modalWrapper.style.bottom = `${bottomPosition}px`;
+			} else {
+				// Desktop positioning
+				let leftPosition = btnRect.right + 15;
+				const modalRect = modalWrapper.getBoundingClientRect();
 
-			if (leftPosition + modalRect.width > viewportWidth - 10) {
-				leftPosition = btnRect.left - modalRect.width - 10;
+				if (leftPosition + modalRect.width > viewportWidth - 20) {
+					leftPosition = btnRect.left - modalRect.width - 15;
+				}
+				if (leftPosition < 20) {
+					leftPosition = Math.max(20, (viewportWidth - modalRect.width) / 2);
+				}
+
+				const bottomPosition = viewportHeight - btnRect.top + 15;
+
+				modalWrapper.style.position = 'fixed';
+				modalWrapper.style.left = `${leftPosition}px`;
+				modalWrapper.style.bottom = `${bottomPosition}px`;
 			}
-			if (leftPosition < 10) {
-				leftPosition = Math.max(10, (viewportWidth - modalRect.width) / 2);
-			}
-
-			const bottomPosition = viewportHeight - btnRect.top + 10;
-
-			modalWrapper.style.position = 'fixed';
-			modalWrapper.style.left = `${leftPosition}px`;
-			modalWrapper.style.bottom = `${bottomPosition}px`;
 
 			modalWrapper.style.top = 'auto';
 		}
@@ -163,14 +182,18 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 			isOpen = true;
 			resetModalState();
 			renderScreen();
-			if (overlay) overlay.style.display = 'block';
+			if (overlay) {
+				overlay.style.display = 'block';
+				requestAnimationFrame(() => {
+					overlay.style.opacity = '1';
+				});
+			}
 			if (modalWrapper) {
 				positionModal();
-
-				setTimeout(() => {
+				requestAnimationFrame(() => {
 					modalWrapper.style.opacity = '1';
 					modalWrapper.style.transform = 'scale(1)';
-				}, 10);
+				});
 			}
 		}
 
@@ -178,12 +201,13 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 			isOpen = false;
 			if (modalWrapper) {
 				modalWrapper.style.opacity = '0';
-				modalWrapper.style.transform = 'scale(0.95)';
+				modalWrapper.style.transform = 'scale(0.9)';
 			}
 			if (overlay) {
+				overlay.style.opacity = '0';
 				setTimeout(() => {
 					overlay.style.display = 'none';
-				}, 200);
+				}, 300);
 			}
 		}
 
@@ -225,15 +249,22 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 				if (screen.options && screen.options.length > 0 && optionsArea && optionsList) {
 					optionsArea.style.display = 'block';
 					optionsList.innerHTML = '';
-					screen.options.forEach((option) => {
+					screen.options.forEach((option, index) => {
 						const li = document.createElement('li');
+						li.style.animationDelay = `${index * 50}ms`;
+						li.className = 'animate-fade-in-up';
+						
 						const button = document.createElement('button');
 						button.textContent = option.text;
-						button.className = `w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium text-white transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-opacity-75 ${
-							option.text.toLowerCase().includes('back')
-								? 'bg-gray-500 hover:bg-gray-600 focus:ring-gray-400'
-								: 'bg-sky-600 hover:bg-sky-700 focus:ring-sky-600'
-						}`;
+						
+						const baseClasses = 'w-full rounded-lg px-3 py-2 text-left text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 shadow-sm hover:shadow-md active:scale-[0.98] sm:px-4 sm:py-2.5 sm:text-base';
+						
+						if (option.text.toLowerCase().includes('back')) {
+							button.className = `${baseClasses} text-white bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 focus:ring-gray-400`;
+						} else {
+							button.className = `${baseClasses} text-white bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 focus:ring-sky-500`;
+						}
+						
 						button.onclick = () => handleOptionClick(option);
 						li.appendChild(button);
 						optionsList.appendChild(li);
@@ -243,25 +274,28 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 				if (optionsArea && optionsList && screen.options) {
 					optionsArea.style.display = 'block';
 					optionsList.innerHTML = '';
-					screen.options.forEach((option) => {
+					screen.options.forEach((option, index) => {
 						const li = document.createElement('li');
+						li.style.animationDelay = `${index * 50}ms`;
+						li.className = 'animate-fade-in-up';
+						
 						const button = document.createElement('button');
 						button.textContent = option.text;
-						let baseClasses =
-							'w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-opacity-75 flex items-center gap-2';
+						
+						let baseClasses = 'w-full rounded-lg px-3 py-2 text-left text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-opacity-50 flex items-center gap-2 shadow-sm hover:shadow-md active:scale-[0.98] sm:px-4 sm:py-2.5 sm:text-base';
 
 						if (option.action === 'openWhatsApp') {
-							button.className = `${baseClasses} text-white bg-green-600 hover:bg-green-700 focus:ring-green-500`;
+							button.className = `${baseClasses} text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:ring-green-500`;
 
 							const icon = document.createElement('img');
 							icon.src = '/icons/WhatsApp.svg.webp';
 							icon.alt = 'WhatsApp';
-							icon.className = 'w-5 h-5';
+							icon.className = 'w-4 h-4 sm:w-5 sm:h-5';
 							button.prepend(icon);
 						} else if (option.text.toLowerCase().includes('back')) {
-							button.className = `${baseClasses} text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-400`;
+							button.className = `${baseClasses} text-white bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 focus:ring-gray-400`;
 						} else {
-							button.className = `${baseClasses} text-white bg-sky-600 hover:bg-sky-700 focus:ring-sky-600`;
+							button.className = `${baseClasses} text-white bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 focus:ring-sky-500`;
 						}
 
 						button.onclick = () => handleOptionClick(option);
@@ -326,14 +360,13 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 				const trimmedInput = inputField.value.trim();
 				if (trimmedInput === '') {
 					inputSubmitBtn.disabled = true;
-					inputSubmitBtn.classList.add('opacity-60', 'cursor-not-allowed');
 				} else {
 					inputSubmitBtn.disabled = false;
-					inputSubmitBtn.classList.remove('opacity-60', 'cursor-not-allowed');
 				}
 			}
 		}
 
+		// Event listeners
 		if (toggleBtn) {
 			toggleBtn.addEventListener('click', () => {
 				if (isOpen) {
@@ -343,7 +376,9 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 				}
 			});
 		}
+		
 		if (closeBtn) closeBtn.addEventListener('click', closeModal);
+		
 		if (overlay) {
 			overlay.addEventListener('click', (e) => {
 				if (e.target === overlay) {
@@ -351,6 +386,7 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 				}
 			});
 		}
+		
 		document.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape' && isOpen) {
 				closeModal();
@@ -358,6 +394,7 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 		});
 
 		if (inputSubmitBtn) inputSubmitBtn.addEventListener('click', handleTextInputSubmit);
+		
 		if (inputBackBtn) {
 			inputBackBtn.addEventListener('click', () => {
 				currentScreenId = 's2_path2';
@@ -366,6 +403,7 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 				renderScreen();
 			});
 		}
+		
 		if (inputField) {
 			inputField.addEventListener('input', updateSubmitButtonState);
 		}
@@ -376,4 +414,23 @@ const whatsappPhoneNumberConst = WHATSAPP_PHONE_NUMBER;
 			}
 		});
 	});
+
+	// Add smooth animations
+	const style = document.createElement('style');
+	style.textContent = `
+		@keyframes fadeInUp {
+			from {
+				opacity: 0;
+				transform: translateY(10px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+		.animate-fade-in-up {
+			animation: fadeInUp 0.1s ease-out forwards;
+		}
+	`;
+	document.head.appendChild(style);
 </script>
