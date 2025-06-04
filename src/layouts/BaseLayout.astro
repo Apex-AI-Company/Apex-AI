@@ -21,32 +21,30 @@ const lang = getLangFromUrl(Astro.url);
 const shareImage = new URL("/images/meta/APEXAI_share.gif", Astro.site).toString();
 
 const defaultSeo: AstroSeoProps = {
-	title: "General AI Solutions - APEXAI Solutions",
+	title: "APEXAI Solutions | Innovative AI Platforms & Web Applications",
 	description:
-		"APEXAI Solutions excels in creating fast, user-friendly websites with a focus on aesthetic design and SEO optimization, ensuring a standout online presence",
-	canonical: "https://apexai.company",
+		"APEXAI Solutions specializes in custom AI-driven platforms, MLOps, data engineering, and advanced web applications to empower businesses.", // Generic fallback description
 	openGraph: {
-		url: "https://apexai.company",
-		title: "General AI Solutions - APEXAI Solutions",
+		title: "APEXAI Solutions | Innovative AI Platforms & Web Applications",
 		description:
-			"APEXAI Solutions excels in creating fast, user-friendly websites with a focus on aesthetic design and SEO optimization, ensuring a standout online presence",
+			"APEXAI Solutions specializes in custom AI-driven platforms, MLOps, data engineering, and advanced web applications to empower businesses.", // Fallback OG description
 		images: [
 			{
 				url: shareImage,
 				width: 1200,
 				height: 630,
-				alt: "Social open graph",
+				alt: "APEXAI Solutions Social Share Graphic",
 				type: "image/gif",
 			},
 			{
-				url: shareImage,
-				width: 4096,
-				height: 4096,
-				alt: "Twitter open graph",
-				type: "image/gif",
+				url: new URL("/images/meta/APEXAI_og_default.png", Astro.site).toString(),
+				width: 1200,
+				height: 630,
+				alt: "APEXAI Solutions Logo and Tagline",
+				type: "image/png",
 			},
 		],
-		site_name: "APEXAI",
+		site_name: "APEXAI Solutions",
 	},
 	twitter: {
 		handle: "@APEXAIstudio",
@@ -64,6 +62,11 @@ const defaultSeo: AstroSeoProps = {
 const seo = {
 	...defaultSeo,
 	...seoProp,
+	openGraph: {
+		...defaultSeo.openGraph,
+		...(seoProp?.openGraph || {}),
+		images: seoProp?.openGraph?.images?.length ? seoProp.openGraph.images : defaultSeo.openGraph.images,
+	},
 };
 
 function cursorFollowerActive() {

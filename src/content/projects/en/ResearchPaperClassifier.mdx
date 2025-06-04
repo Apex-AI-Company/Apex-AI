@@ -1,0 +1,60 @@
+---
+pubDate: 2025-03-20
+author:
+  name: Rishabh Kothari
+  link: https://rishabhk103.github.io/
+title: Publication Classifier
+description: "Classifies research papers and predicts publishability using SciBERT, Sentence-BERT, and self-training pipelines"
+link: https://github.com/Ayush-Sharma23/research-paper-classifier
+image:
+  source: "@assets/images/projects/pitch-extraction.jpeg"
+  alt: "Screenshot of publication classifier with output predictions and metrics"
+---
+
+## About Publication Classifier
+
+Publication Classifier is a hybrid NLP system that analyzes research papers to determine their **publishability** and recommend the most suitable **conference**. It combines modern transformer models like **SciBERT** and **Sentence-BERT** with classic machine learning and self-training strategies to generate interpretable, high-quality predictions.
+
+The classifier uses **text embeddings** from SciBERT to evaluate whether a paper should be published. If deemed publishable, a semantic similarity approach using Sentence-BERT matches the paper with top-tier conferences such as **CVPR**, **NeurIPS**, **EMNLP**, **KDD**, and **TMLR**.
+
+- **SciBERT for Content Understanding**  
+  Generates deep contextual embeddings from full paper content for classification tasks.
+
+- **Self-Training Publishability Classifier**  
+  Uses a small set of labeled papers to iteratively train on larger unlabeled datasets with pseudo-labels.
+
+- **Sentence-BERT for Conference Matching**  
+  Identifies the most semantically relevant conference based on similarity with topic prototypes.
+
+- **Plug-and-Play with CSV Input**  
+  Accepts labeled and unlabeled CSVs, and outputs results to `results/output.csv`—ready for evaluation or submission.
+
+- **Expandable & Modular Codebase**  
+  Easy to fine-tune, extend with new conferences, or upgrade with better models like Longformer or GPT.
+
+---
+
+## Tech Stack
+
+- **Embeddings & Transformers:** SciBERT, Sentence-BERT, Hugging Face Transformers
+- **Modeling:** scikit-learn, self-training classifier
+- **Data Handling:** pandas, numpy
+- **Evaluation:** precision, recall, F1, confusion matrix
+- **Execution:** Python 3.8+, CLI-compatible scripts
+
+---
+
+## Credits
+
+- **SciBERT:** For domain-specific contextual embeddings of scientific content.
+- **Sentence-BERT:** For high-quality semantic similarity computation.
+- **scikit-learn:** For baseline classification pipelines and metrics.
+- **pandas/numpy:** For efficient CSV handling and data preprocessing.
+
+---
+
+## Author
+
+Developed by [Ayush Sharma](https://github.com/Ayush-Sharma23) & [Rishabh Kothari](https://rishabhk103.github.io/).  
+Check out the full project on [Here](https://github.com/Ayush-Sharma23/pathway-hackathon-resources).  
+Check out more projects on [GitHub](https://github.com/rohitkshirsagar19) or reach out via [LinkedIn](https://linkedin.com/in/rohitkshirsagar19).

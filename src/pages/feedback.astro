@@ -1,0 +1,455 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Title from "@/components/global/Title.astro";
+import type { AstroSeoProps } from "@astrolib/seo";
+
+const seo: AstroSeoProps = {
+  title: "Project Feedback - APEXAI Company",
+  description: "Provide your valuable feedback on our recent project collaboration.",
+  canonical: "https://apexai.company/feedback/",
+};
+
+const rangeSliders = [
+  {
+    id: "overallSatisfaction",
+    name: "overallSatisfaction",
+    label: "Overall Satisfaction",
+    defaultValue: 7,
+  },
+  {
+    id: "onTimeDelivery",
+    name: "onTimeDelivery",
+    label: "Project Delivered on Time",
+    defaultValue: 7,
+  },
+  {
+    id: "requirementsMet",
+    name: "requirementsMet",
+    label: "All Requirements Met",
+    defaultValue: 7,
+  },
+  {
+    id: "communication",
+    name: "communication",
+    label: "Communication Quality",
+    defaultValue: 7,
+  },
+  {
+    id: "qualityOfWork",
+    name: "qualityOfWork",
+    label: "Quality of Work",
+    defaultValue: 7,
+  },
+  {
+    id: "likelihoodToRecommend",
+    name: "likelihoodToRecommend",
+    label: "Likelihood to Recommend Us",
+    defaultValue: 7,
+  },
+];
+---
+
+<BaseLayout seo={seo}>
+  <section class="isolate px-6 py-24 sm:py-32 lg:px-8">
+    <div
+      class="absolute inset-x-0 top-[-10rem] transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
+      aria-hidden="true"
+    >
+      <div class="gradient-element"></div>
+    </div>
+    <div class="mx-auto">
+      <Title
+        class="pb-10 pt-20 uppercase"
+        title="Project Feedback"
+        subtitle="We value your input"
+      />
+
+      <!-- Error message container -->
+      <div id="error-message" class="mx-auto max-w-2xl pt-6 hidden">
+        <p class="rounded-md bg-red-100 p-4 text-red-700"></p>
+      </div>
+
+      <!-- Success message container -->
+      <div id="success-message" class="mx-auto max-w-2xl pt-6 hidden">
+        <p class="rounded-md bg-green-100 p-4 text-green-700">
+          Thank you for your feedback! It has been submitted successfully.
+        </p>
+      </div>
+
+      <!-- Loading indicator -->
+      <div id="loading-message" class="mx-auto max-w-2xl pt-6 hidden">
+        <p class="rounded-md bg-blue-100 p-4 text-blue-700">
+          Submitting feedback...
+        </p>
+      </div>
+
+      <form id="feedback-form" class="mx-auto max-w-2xl pt-12 lg:pt-20">
+        <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+          <div class="form-field sm:col-span-2">
+            <label for="name" class="form-label">Your Name*</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              autocomplete="name"
+              required
+            />
+            <p id="name-error" class="mt-1 text-sm text-red-600 hidden"></p>
+          </div>
+
+          <div class="form-field sm:col-span-2">
+            <label for="company" class="form-label"
+              >Company (Optional)</label
+            >
+            <input
+              type="text"
+              name="company"
+              id="company"
+              autocomplete="organization"
+            />
+          </div>
+
+          <div class="form-field sm:col-span-2">
+            <label for="project" class="form-label"
+              >Project</label
+            >
+            <input
+              type="text"
+              name="project"
+              id="project"
+            />
+          </div>
+
+          <div class="form-field sm:col-span-2">
+            <label for="personOfContact" class="form-label"
+              >Person(s) of Contact (during project, Optional)</label
+            >
+            <input
+              type="text"
+              name="personOfContact"
+              id="personOfContact"
+              placeholder="e.g., Rohit Kshirsagar, Rishabh Kothari"
+            />
+          </div>
+
+          {rangeSliders.map((slider) => (
+            <div class="form-field sm:col-span-2" key={slider.id}>
+              <label for={slider.id} class="form-label flex justify-between">
+                <span>{slider.label}:</span>
+                <span class="text-slate-700">
+                  <span id={`${slider.id}Value`} class="font-bold">
+                    {slider.defaultValue}
+                  </span>
+                  /10
+                </span>
+              </label>
+              <input
+                type="range"
+                name={slider.name}
+                id={slider.id}
+                min="0"
+                max="10"
+                value={slider.defaultValue}
+                class="w-full h-3 cursor-pointer appearance-none rounded-lg bg-slate-200 accent-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50"
+              />
+            </div>
+          ))}
+
+          <div class="form-field sm:col-span-2">
+            <label for="additionalFeedback" class="form-label"
+              >Additional Feedback (Optional)</label
+            >
+            <textarea
+              name="additionalFeedback"
+              id="additionalFeedback"
+              rows="4"
+            ></textarea>
+            <p
+              id="additionalFeedback-error"
+              class="mt-1 text-sm text-red-600 hidden"
+            ></p>
+          </div>
+        </div>
+        <div class="flex pt-10">
+          <div class="squircle-bg rounded-lg bg-zinc-900">
+            <button
+              type="submit"
+              id="submit-btn"
+              class="flex h-10 w-full max-w-52 flex-1 items-center justify-center px-4 py-2 text-xl text-slate-200 transition-all hover:text-white sm:w-auto md:font-bold lg:h-10"
+            >
+              Submit Feedback
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script define:vars={{ rangeSliders }}>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("feedback-form");
+    const submitBtn = document.getElementById("submit-btn");
+    const errorMessageContainer =
+      document.getElementById("error-message");
+    const successMessageContainer =
+      document.getElementById("success-message");
+    const loadingMessageContainer =
+      document.getElementById("loading-message");
+
+    // Make sure this endpoint is correct for your SheetsDB setup:
+    const SHEETSDB_API_ENDPOINT = "https://sheetdb.io/api/v1/wvfz0xrzjsk8q";
+
+    // Show the initial slider values and update on input
+    rangeSliders.forEach((sliderConfig) => {
+      const sliderElement = document.getElementById(sliderConfig.id);
+      const valueDisplayElement = document.getElementById(
+        `${sliderConfig.id}Value`
+      );
+      if (sliderElement && valueDisplayElement) {
+        valueDisplayElement.textContent = sliderElement.value;
+        sliderElement.addEventListener("input", (event) => {
+          valueDisplayElement.textContent = event.target.value;
+        });
+      }
+    });
+
+    function clearMessages() {
+      errorMessageContainer.classList.add("hidden");
+      successMessageContainer.classList.add("hidden");
+      loadingMessageContainer.classList.add("hidden");
+
+      const fieldErrorElements = form.querySelectorAll(
+        'p[id$="-error"]'
+      );
+      fieldErrorElements.forEach((el) => {
+        el.classList.add("hidden");
+        el.textContent = "";
+      });
+    }
+
+    function showGlobalError(message) {
+      errorMessageContainer.querySelector("p").textContent = message;
+      errorMessageContainer.classList.remove("hidden");
+    }
+
+    function showFieldError(field, message) {
+      const errorEl = document.getElementById(`${field}-error`);
+      if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.classList.remove("hidden");
+      }
+    }
+
+    function validateForm(formData) {
+      const errors = {};
+      if (!formData.get("name")?.toString().trim()) {
+        errors.name = "Name is required";
+      }
+      return errors;
+    }
+
+    const now = new Date();
+    const formattedDate = new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    }).format(now);
+
+    async function submitFeedback(formData) {
+      const dataToSend = {
+        Name: formData.get("name"),
+        Company: formData.get("company") || "",
+        Project: formData.get("project") || "",
+        PersonOfContact: formData.get("personOfContact") || "",
+        AdditionalFeedback: formData.get("additionalFeedback") || "",
+        SubmittedAt: formattedDate,
+      };
+
+      rangeSliders.forEach((slider) => {
+        const rawValue = formData.get(slider.name);
+        dataToSend[slider.name] = rawValue
+          ? Number(rawValue)
+          : null;
+      });
+
+      try {
+        const response = await fetch(SHEETSDB_API_ENDPOINT, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data: [dataToSend] }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response
+            .json()
+            .catch(() => ({}));
+          console.error("API Error Data:", errorData);
+          throw new Error(
+            `HTTP error! status: ${response.status}, message: ${
+              errorData.error || response.statusText
+            }`
+          );
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.error("Form submission error:", error);
+        throw error;
+      }
+    }
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      clearMessages();
+
+      const formData = new FormData(form);
+      const validationErrors = validateForm(formData);
+      if (Object.keys(validationErrors).length > 0) {
+        Object.entries(validationErrors).forEach(
+          ([field, message]) => {
+            showFieldError(field, message);
+          }
+        );
+        const firstErrorField = document.getElementById(
+          Object.keys(validationErrors)[0]
+        );
+        if (firstErrorField) {
+          firstErrorField.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+        return;
+      }
+
+      loadingMessageContainer.classList.remove("hidden");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+
+      try {
+        await submitFeedback(formData);
+
+        loadingMessageContainer.classList.add("hidden");
+        successMessageContainer.classList.remove("hidden");
+        form.reset();
+
+        // Reset all sliders back to default
+        rangeSliders.forEach((sliderConfig) => {
+          const sliderElement = document.getElementById(
+            sliderConfig.id
+          );
+          const valueDisplayElement = document.getElementById(
+            `${sliderConfig.id}Value`
+          );
+          if (sliderElement && valueDisplayElement) {
+            sliderElement.value = sliderConfig.defaultValue;
+            valueDisplayElement.textContent =
+              sliderConfig.defaultValue;
+          }
+        });
+
+        successMessageContainer.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      } catch (error) {
+        loadingMessageContainer.classList.add("hidden");
+        showGlobalError(
+          `There was an error submitting your feedback: ${error.message}. Please try again or contact us directly.`
+        );
+        errorMessageContainer.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Feedback";
+      }
+    });
+  });
+</script>
+
+<style>
+  /* Styles adapted from src/components/forms/Contact.astro */
+  .gradient-element {
+    @apply
+      relative
+      left-1/2
+      -z-10
+      aspect-[1155/678]
+      w-[36.125rem]
+      max-w-none
+      -translate-x-1/2
+      rotate-[30deg]
+      bg-gradient-to-tr
+      from-[#ff80b5]
+      to-[#9089fc]
+      opacity-30
+      sm:left-[calc(50%-40rem)]
+      sm:w-[72.1875rem];
+    clip-path: polygon(
+      74.1% 44.1%,
+      100% 61.6%,
+      97.5% 26.9%,
+      85.5% 0.1%,
+      80.7% 2%,
+      72.5% 32.5%,
+      60.2% 62.4%,
+      52.4% 68.1%,
+      47.5% 58.3%,
+      45.2% 34.5%,
+      27.5% 76.7%,
+      0.1% 64.9%,
+      17.9% 100%,
+      27.6% 76.8%,
+      76.1% 97.7%,
+      74.1% 44.1%
+    );
+  }
+
+  .form-field {
+    @apply block;
+  }
+
+  .form-label {
+    @apply flex pl-1 text-sm font-semibold leading-6 text-gray-900 mb-1;
+  }
+
+  /* Styles for text inputs and textarea */
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    @apply
+      pointer-events-auto
+      relative
+      m-0
+      w-full
+      cursor-text
+      rounded-lg
+      border-0
+      bg-slate-200
+      px-5
+      py-2
+      text-base
+      font-normal
+      not-italic
+      outline-none
+      placeholder:text-gray-400
+      focus:ring-2
+      focus:ring-sky-500
+      focus:ring-opacity-50;
+  }
+
+  input:focus,
+  textarea:focus {
+    /* Focus ring is covered by Tailwind’s focus:ring utilities */
+  }
+</style>
