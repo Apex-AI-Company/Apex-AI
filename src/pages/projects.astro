@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import Title from '@components/global/Title.astro';
 import WokCard from '@components/work/WokCard.astro';
 import { getLangFromUrl, useTranslatedPath, useTranslations } from '@i18n/utils';
+import type { AstroSeoProps } from "@astrolib/seo";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -25,9 +26,18 @@ const allProjects = (await getCollection('projects'))
 		};
 	})
 	.sort((a, b) => Number(b.data.pubDate) - Number(a.data.pubDate));
+
+const seo: AstroSeoProps = {
+  title: "Our AI & Web Development Projects | APEXAI Solutions",
+  description: "Explore a portfolio of innovative AI and web development projects by APEXAI Solutions. See how we deliver custom solutions for diverse business needs.",
+  openGraph: {
+    title: "Our AI & Web Development Projects | APEXAI Solutions",
+    description: "Explore a portfolio of innovative AI and web development projects by APEXAI Solutions. See how we deliver custom solutions for diverse business needs.",
+  }
+};
 ---
 
-<BaseLayout>
+<BaseLayout seo={seo}>
 	<section class='isolate px-6 py-24 sm:py-32 lg:px-8'>
 		<div class='absolute inset-x-0 top-[-10rem] transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]' aria-hidden='true'>
 			<div class='gradient-element'></div>
@@ -76,7 +86,6 @@ const allProjects = (await getCollection('projects'))
 		const projects = gsap.utils.toArray('.work-preview-section ol li') as gsap.DOMTarget[];
 		const previews = gsap.utils.toArray('.work-preview-section ol li img') as gsap.DOMTarget[];
 
-		// Image growth animation on scroll
 		previews.forEach((preview) => {
 			gsap.from(preview, {
 				scrollTrigger: {
@@ -91,7 +100,6 @@ const allProjects = (await getCollection('projects'))
 			});
 		});
 
-		// Parallax effect for projects on desktop
 		if (window.innerWidth >= 768) {
 			projects.forEach((project) => {
 				gsap.to(project, {
@@ -109,7 +117,6 @@ const allProjects = (await getCollection('projects'))
 		}
 	}
 
-	// Clean up previous event listeners and add new one
 	document.removeEventListener('DOMContentLoaded', init);
 	document.addEventListener('DOMContentLoaded', init);
 </script>

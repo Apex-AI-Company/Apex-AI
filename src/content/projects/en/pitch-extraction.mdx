@@ -1,0 +1,57 @@
+---
+pubDate: 2025-02-05
+author:
+  name: Rishabh Kothari
+  link: mailto:rishabhkothari103@gmail.com 
+title: Synthetic Swara
+description: "A deep learning project for classifying Indian classical music swaras and predicting pitch using synthetic audio data and convolutional neural networks."
+link: None
+image:
+  source: "@assets/images/projects/pitchextraction.jpeg"
+  alt: "Visualization of mel-spectrogram features for swara classification"
+---
+
+## About Synthetic Swara
+
+Synthetic Swara is an innovative project focused on Indian classical music, specifically for classifying the seven shuddha swaras (Sa, Re, Ga, Ma, Pa, Dha, Ni) and predicting pitch frequencies using synthetic audio data. The project leverages convolutional neural networks (CNNs) trained on mel-spectrogram features derived from synthetically generated audio samples. It includes two main components: a swara classifier for identifying musical notes and a pitch predictor for estimating frequencies, both designed to handle realistic audio variations like harmonics, vibrato, and noise.
+
+- **Synthetic Dataset Generation**  
+  Creates realistic audio samples for seven swaras with harmonics, vibrato, ADSR envelope, and noise for robust training.
+
+- **Swara Classification**  
+  A CNN model classifies swaras from mel-spectrograms, achieving 71.43% test accuracy on a synthetic dataset of 1,400 samples.
+
+- **Pitch Prediction**  
+  A simplified CNN predicts pitch frequencies (100-600 Hz), with a test MAE of 51.28 Hz, using normalized mel-spectrogram inputs.
+
+- **Sliding Window Prediction**  
+  Both models use a sliding window approach for real-time analysis of audio segments, enabling precise swara and pitch detection.
+
+- **Efficient Design**  
+  Lightweight CNN architectures with dropout and batch normalization ensure robust performance with minimal computational resources.
+
+---
+
+## Tech Stack
+
+- **Model & Training:** TensorFlow, Keras
+- **Audio Processing:** Librosa (mel-spectrogram generation)
+- **Data Generation:** NumPy, SciPy
+- **Preprocessing:** Scikit-learn (LabelEncoder, train-test split)
+- **Infrastructure:** Google Colab with GPU support
+
+---
+
+## Credits
+
+- **Librosa:** For efficient audio processing and mel-spectrogram feature extraction.
+- **TensorFlow/Keras:** For building and training CNN models.
+- **NumPy/SciPy:** For generating synthetic audio with realistic characteristics.
+- **Scikit-learn:** For data preprocessing and label encoding.
+
+---
+
+## Authors
+
+Built by [Rishabh Kothari](https://rishabhk103.github.io/) 
+Project details are available in the Jupyter notebook. For inquiries, contact [rishabhkothari103@gmail.com](mailto:rishabhkothari103@gmail.com).
