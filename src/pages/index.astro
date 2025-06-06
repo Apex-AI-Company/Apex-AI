@@ -5,23 +5,22 @@ import Services from "@components/landing/Services.astro";
 import Tagline from "@components/landing/Tagline.astro";
 import WorkPreview from "@components/landing/WorkPreview.astro";
 import Faq from "@components/landing/Faq.astro";
-import type { AstroSeoProps } from "@astrolib/seo";
-
-const seo: AstroSeoProps = {
-  title: "APEXAI Solutions: Custom AI Platforms & Innovative Web Applications",
-  description: "APEXAI builds intelligent AI-driven web platforms, custom AI solutions, and offers MLOps & data engineering. Transform your business with our cutting-edge technology.",
-  openGraph: {
-    title: "APEXAI Solutions: Custom AI Platforms & Innovative Web Applications",
-    description: "APEXAI builds intelligent AI-driven web platforms, custom AI solutions, and offers MLOps & data engineering. Transform your business with our cutting-edge technology.",
-  }
-};
 ---
 
-<BaseLayout seo={seo}>
+<BaseLayout>
 	<Hero />
-  <h1 class="text-4xl lg:text-6xl font-bold text-center mb-8">Our work preview</h1>
 	<WorkPreview class="!pt-20 pb-20 lg:!pt-36 lg:pb-40" />
 	<Services />
 	<Tagline />
 	<Faq />
 </BaseLayout>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QVC2BGJBM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9QVC2BGJBM');
+</script>
