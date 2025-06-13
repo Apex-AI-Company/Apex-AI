@@ -1,289 +1,525 @@
 ---
 import { Image } from "astro:assets";
-import { Icon } from "astro-icon/components";
 import { getLangFromUrl, getUrlWithoutLang, useTranslations, useTranslatedPath } from "@i18n/utils";
 
-const isDev = import.meta.env.DEV;
 
 const lang = getLangFromUrl(Astro.url);
-const path = getUrlWithoutLang(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 
-let pages = [
-	{
-		title: "Home",
-		url: "/",
-	},
-	{
-		title: "Services",
-		url: "/services",
-	},
-	// {
-	// 	title: "Blogs",
-	// 	url: "/blog",
-	// },
-	{
-		title: "Projects",
-		url: "/projects",
-	},
-	{
-		title: t("contacts"),
-		url: "/contact/",
-	},
-];
 
-// if (isDev) {
-// 	pages.push({
-// 		title: "Overview",
-// 		url: "/system/overview",
-// 	});
-// }
+const navigation = {
+	main: [
+		{
+			title: "Home",
+			url: "/",
+			hasDropdown: false
+		},
+		{
+			title: "Services",
+			url: "/services",
+			hasDropdown: true,
+			megaMenu: {
+				columns: [
+					{
+						title: "AI-Driven Automation",
+						links: [
+							{ title: "Task Automation", url: "/services/task-automation", description: "Automate repetitive tasks and complex workflows." },
+							{ title: "ETL & Data Pipelines", url: "/services/etl-data-pipelines", description: "Build robust data ingestion and transformation systems." },
+							{ title: "Web Scraping Solutions", url: "/services/web-scraping", description: "Extract valuable data from the web at scale." },
+							{ title: "Automated Reporting", url: "/services/automated-reporting", description: "Generate key insights with auto-generated reports." }
+						]
+					},
+					{
+						title: "Custom AI Development",
+						links: [
+							{ title: "AI Agents & Chatbots", url: "/services/ai-agents-chatbots", description: "Develop intelligent agents and conversational AI." },
+							{ title: "Computer Vision Systems", url: "/services/computer-vision", description: "Build systems for advanced image and video analysis." },
+							{ title: "NLP Solutions", url: "/services/nlp-solutions", description: "Leverage natural language processing for text-based tasks." },
+							{ title: "Reinforcement Learning", url: "/services/reinforcement-learning", description: "Create custom agents for control and optimization." }
+						]
+					},
+					{
+						title: "Intelligent Platforms",
+						links: [
+							{ title: "End-to-End Web Applications", url: "/services/web-applications", description: "Develop full-stack platforms with integrated AI/ML." },
+							{ title: "Real-time Data Dashboards", url: "/services/data-dashboards", description: "Visualize data and monitor KPIs in real-time." },
+							{ title: "IoT Intelligent Systems", url: "/services/iot-systems", description: "Build smart solutions for connected devices and systems." }
+						]
+					},
+					{
+						title: "MLOps & Deployment",
+						links: [
+							{ title: "MLOps Pipelines", url: "/services/mlops-pipelines", description: "Streamline your machine learning lifecycle." },
+							{ title: "Scalable AI Deployment", url: "/services/ai-deployment", description: "Deploy and manage AI models efficiently in production." },
+							{ title: "Cloud AI Integration (AWS)", url: "/services/cloud-ai", description: "Leverage AWS and other cloud services for AI/ML." }
+						]
+					}
+				]
+			}
+		},
+		{
+			title: "Projects",
+			url: "/projects",
+			hasDropdown: true,
+			megaMenu: {
+				columns: [
+					{
+						title: "Automation & Efficiency",
+						links: [
+							{ title: "Automated Invoice Processing", url: "/projects/invoice-processing", description: "Reduced manual data entry by 90% using NLP & CV." },
+							{ title: "Smart Factory Predictive Maintenance", url: "/projects/predictive-maintenance", description: "IoT & ML system to predict equipment failure, minimizing downtime." }
+						]
+					},
+					{
+						title: "Intelligent Platforms",
+						links: [
+							{ title: "AI E-commerce Recommendation Engine", url: "/projects/ecommerce-recommendations", description: "Personalized recommendations increasing sales by 25%." },
+							{ title: "Real-time Transit Monitoring Dashboard", url: "/projects/transit-dashboard", description: "Dynamic dashboard for city transit optimization." }
+						]
+					},
+					{
+						title: "Advanced AI Applications",
+						links: [
+							{ title: "RL Agent for Robotic Control", url: "/projects/rl-robotics", description: "PPO-based agent for robotic arm learning complex tasks." },
+							{ title: "Legal Document Analysis (NLP)", url: "/projects/legal-nlp", description: "Transformer-based tool to extract clauses from legal docs." },
+							{ title: "View All Projects", url: "/projects", description: "Explore our full portfolio of AI solutions." }
+						]
+					}
+				]
+			}
+		},
+		{
+			title: "Industries",
+			url: "/industries",
+			hasDropdown: true,
+			megaMenu: {
+				columns: [
+					{
+						title: "Education",
+						links: [
+							{ title: "AI Tutoring Systems", url: "/industries/education/ai-tutoring", description: "Personalized learning with intelligent tutoring systems." },
+							{ title: "Automated Assessment", url: "/industries/education/assessment", description: "Reduce grading time with NLP-powered tools." },
+							{ title: "Smart Content Delivery", url: "/industries/education/content-delivery", description: "Adaptive platforms that adjust to learner pace." }
+						]
+					},
+					{
+						title: "Telecommunication",
+						links: [
+							{ title: "Network Fault Detection", url: "/industries/telecom/fault-detection", description: "Real-time anomaly detection in 5G/4G networks." },
+							{ title: "Customer Churn Prediction", url: "/industries/telecom/churn-prediction", description: "Forecast and reduce customer attrition using ML." },
+							{ title: "Traffic Optimization", url: "/industries/telecom/traffic-optimization", description: "Optimize bandwidth and performance with AI insights." }
+						]
+					},
+					{
+						title: "Home Automation",
+						links: [
+							{ title: "Smart Lighting Systems", url: "/industries/home-automation/lighting", description: "AI-controlled lighting for comfort and efficiency." },
+							{ title: "Voice-Controlled Interfaces", url: "/industries/home-automation/voice", description: "Integrate Alexa, Google Home for seamless control." },
+							{ title: "Energy Usage Optimization", url: "/industries/home-automation/energy", description: "Monitor and reduce energy consumption smartly." }
+						]
+					},
+					{
+						title: "IoT",
+						links: [
+							{ title: "Device Telemetry Processing", url: "/industries/iot/telemetry", description: "Process large-scale data from connected devices." },
+							{ title: "Predictive Maintenance", url: "/industries/iot/maintenance", description: "Anticipate equipment failure with sensor data." },
+							{ title: "IoT Security Solutions", url: "/industries/iot/security", description: "Protect device networks with AI-based threat detection." }
+						]
+					}
+				]
+			}
+		}
+	]
+};
 
 const { pathname } = Astro.url;
+
+
+function isActivePage(url: string, pathname: string): boolean {
+	if (url === "/" && pathname === "/") return true;
+	if (url !== "/" && pathname.startsWith(url)) return true;
+	return false;
+}
 ---
 
-<header>
-	<a href={translatePath("/")} aria-label="Home" class="logo absolute z-50 flex h-[5rem] items-center md:h-[9rem]">
-		<Image
-			src="/logo-header.png"
-			alt="Logo"
-			width={200}
-			height={600}
-			class="logo-svg h-full w-auto transition-all duration-500 ease-in-out"
-			data-xbind.class="{'w-[6rem]': !open, 'w-[8rem]': open}">
-	</a>
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
+	<div class="container mx-auto px-6">
+		<div class="flex items-center justify-between h-16">
+			<!-- Logo -->
+			<a href={translatePath("/")} aria-label="Home" class="flex items-center">
+				<Image
+					src="/logo-header.png"
+					alt="ApexAI Logo"
+					width={120}
+					height={40}
+					class="h-10 w-auto transition-all duration-300"
+				/>
+			</a>
 
-	<div data-xdata="{ open: false }" class="navigation fixed right-0 top-0 z-50" data-xbind.class="{'w-full navbar-open': open}">
-		<div class="ml-auto md:max-w-fit" data-xbind.class="{'max-w-3xl': open, 'max-w-[8rem]': !open }">
-			<div class="mx-auto w-full">
-				<div
-					class="shadow-thick resizable nav-container squircle relative mx-auto flex w-full flex-col justify-center overflow-x-hidden bg-zinc-900 backdrop-blur-xl backdrop-filter md:flex-row-reverse">
-					<div class="flex flex-row items-center justify-end md:hidden">
-						<a class="px-3 py-[0.4rem] pl-4" href={translatePath("/contact/")} aria-label="Contact Page">
-							<Icon class="text-white" name="octicon:mail-16" width="20" data-xbind.class="{'hidden': open}" />
+			<!-- Desktop Navigation -->
+			<nav class="hidden lg:flex items-center space-x-8" data-navbar>
+				{navigation.main.map((item) => (
+					<div class="relative nav-item" data-nav-item>
+						<a
+							href={translatePath(item.url)}
+							class={`nav-link flex items-center space-x-1 px-4 py-2 rounded-full text-gray-700 hover:text-sky-600 transition-colors duration-200 ${
+								isActivePage(item.url, pathname) ? 'active-page' : ''
+							}`}
+							data-nav-link
+						>
+							<span class="font-medium">{item.title}</span>
+							{item.hasDropdown && (
+								<svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+							)}
 						</a>
-						<button
-							data-xon.click="open = !open"
-							data-xbind.style="{'padding-top': open ? '1rem' : '0.4rem'}"
-							aria-label="Open navbar"
-							class="inline-flex items-center justify-center px-3 py-[0.4rem] pr-4 text-white hover:text-blue-300 focus:text-white focus:outline-none">
-							<svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-								<path
-									data-xbind.class="{'hidden': open, 'inline-flex': !open }"
-									class="inline-flex"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M4 6h16M4 12h16M4 18h16">
-								</path>
-								<path
-									data-xbind.class="{'hidden': !open, 'inline-flex': open }"
-									class="hidden"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M6 18L18 6M6 6l12 12">
-								</path>
-							</svg>
-						</button>
 					</div>
-					<nav data-xbind.class="{'flex': open, 'hidden': !open}" class="hidden flex-grow flex-col justify-center py-12 md:flex md:py-0">
-						<ul
-							class="flex list-none flex-col items-end justify-center gap-2 px-2 text-center text-3xl md:flex-row md:items-center md:text-base">
-							{
-								pages.map((page) => (
-									<li data-cursor-hover>
-										<a
-											href={translatePath(page.url)}
-											class={`inline-block cursor-pointer px-1 py-[0.33rem] ${
-												page.url === pathname ||
-												page.url === pathname.replace(/^\/it|\/$/, "") ||
-												(page.url === "/blog" && (pathname.startsWith("/blog") || pathname.startsWith("/it/blog")))
-													? "active"
-													: ""
-											}`}>
-											<span class="menu-item-container inline-block">
-												<span class="menu-item px-4 py-1 font-semibold uppercase tracking-wide text-zinc-400 hover:text-white focus:text-white focus:shadow-none focus:outline-none">
-													{page.title}
-												</span>
-											</span>
-										</a>
-									</li>
-								))
-							}
-						</ul>
-					</nav>
+				))}
+			</nav>
+
+			<!-- Contact Button -->
+			<a
+				href={translatePath("/contact/")}
+				class="bg-sky-600 text-white px-6 py-2 hidden lg:flex rounded-full hover:bg-sky-700 transition-colors duration-200 font-medium"
+			>
+				{t("contacts")}
+			</a>
+
+			<!-- Mobile Menu Button -->
+			<button
+				class="lg:hidden flex items-center justify-center w-10 h-10 rounded-md hover:bg-gray-100 transition-colors duration-200"
+				data-mobile-menu-toggle
+				aria-label="Toggle mobile menu"
+			>
+				<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+			</button>
+		</div>
+
+		<!-- Mobile Navigation -->
+		<div class="lg:hidden mobile-menu hidden" data-mobile-menu>
+			<div class="py-4 border-t border-gray-100 max-h-[60vh] overflow-y-auto">
+				{navigation.main.map((item) => (
+					<div class="mobile-nav-item">
+						<div class="flex items-center justify-between">
+							<a
+								href={translatePath(item.url)}
+								class={`flex-1 px-4 py-3 text-gray-700 hover:text-sky-600 hover:bg-gray-50 transition-colors duration-200 ${
+									isActivePage(item.url, pathname) ? 'text-sky-600 bg-sky-50' : ''
+								}`}
+							>
+								{item.title}
+							</a>
+							{item.hasDropdown && item.megaMenu && (
+								<button
+									class="px-4 py-3 text-gray-500 hover:text-sky-600 transition-colors duration-200"
+									data-mobile-dropdown-toggle={`mobile-dropdown-${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+									aria-label={`Toggle ${item.title} submenu`}
+								>
+									<svg class="w-5 h-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+									</svg>
+								</button>
+							)}
+						</div>
+						{item.hasDropdown && item.megaMenu && (
+							<div
+								class="mobile-dropdown hidden overflow-hidden transition-all duration-300 ease-in-out"
+								data-mobile-dropdown={`mobile-dropdown-${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+							>
+								<div class="ml-4 border-l border-gray-200 pl-4 py-2">
+									{item.megaMenu.columns.map((column) => (
+										<div class="mb-4">
+											<div class="font-medium text-gray-900 text-sm mb-2 px-2">{column.title}</div>
+											{column.links.map((link) => (
+												<a
+													href={translatePath(link.url)}
+													class="block py-2 px-2 text-sm text-gray-600 hover:text-sky-600 hover:bg-gray-50 rounded transition-colors duration-200"
+												>
+													<div class="font-medium">{link.title}</div>
+													<div class="text-xs text-gray-500 mt-1">{link.description}</div>
+												</a>
+											))}
+										</div>
+									))}
+								</div>
+							</div>
+						)}
+					</div>
+				))}
+				<div class="px-4 py-3 border-t border-gray-100 mt-4">
+					<a
+						href={translatePath("/contact/")}
+						class="block w-full text-center bg-sky-600 text-white py-3 rounded-lg hover:bg-sky-700 transition-colors duration-200 font-medium"
+					>
+						{t("contacts")}
+					</a>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<!-- Full Width Mega Menu Container -->
+	<div class="mega-menu-container hidden lg:block" data-mega-menu-container>
+		{navigation.main.map((item) => (
+			item.hasDropdown && item.megaMenu && (
+				<div
+					class="mega-menu absolute top-full left-0 right-0 w-full opacity-0 invisible transition-all duration-300 ease-out transform translate-y-2"
+					data-mega-menu={`mega-menu-${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+				>
+					<div class="bg-white shadow-xl border-t border-gray-100">
+						<div class="container mx-auto px-6 py-12">
+							<!-- Header section with title and description -->
+							<div class="text-center mb-8">
+								<h2 class="text-2xl font-bold text-gray-900 mb-2">
+									{item.title === 'Services' ? 'AI-Powered Platforms to Automate, Analyze & Accelerate Growth' :
+									 item.title === 'Projects' ? 'Showcasing Our Innovations: Real-World AI Solutions' :
+									 'Building a Unified Intelligent Ecosystem for People, Agents, and Robots'}
+								</h2>
+							</div>
+
+							<div class="grid gap-12" style={`grid-template-columns: repeat(${item.megaMenu.columns.length}, 1fr);`}>
+								{item.megaMenu.columns.map((column) => (
+									<div class="space-y-6">
+										<h3 class="font-semibold text-gray-900 text-sm uppercase tracking-wide mb-6">
+											{column.title}
+										</h3>
+										<ul class="space-y-4">
+											{column.links.map((link) => (
+												<li>
+													<a
+														href={translatePath(link.url)}
+														class="group block p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+													>
+														<div class="flex items-start space-x-3">
+															<div class="flex-shrink-0 w-8 h-8 bg-sky-100 rounded-lg flex items-center justify-center">
+																<svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+																	<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+																</svg>
+															</div>
+															<div class="flex-1">
+																<div class="font-medium text-gray-900 group-hover:text-sky-600 transition-colors duration-200">
+																	{link.title}
+																</div>
+																<div class="text-sm text-gray-500 mt-1">
+																	{link.description}
+																</div>
+															</div>
+														</div>
+													</a>
+												</li>
+											))}
+										</ul>
+									</div>
+								))}
+							</div>
+						</div>
+					</div>
+				</div>
+			)
+		))}
+	</div>
 </header>
 
-<style>
-	.navigation {
-		mix-blend-mode: difference;
-	}
-	.navigation.navbar-open {
-		mix-blend-mode: luminosity;
-	}
-	.navigation,
-	.logo {
-		padding: 1rem var(--base-padding-x);
-	}
-	@media (min-width: 768px) {
-		.navigation,
-		.logo {
-			padding: 2rem var(--base-padding-x);
-		}
-	}
-	.resizable:before {
-		content: "|";
-		position: absolute;
-		left: 0.4rem;
-		top: 0.36rem;
-		font-size: 12px;
-		line-height: 23px;
-		color: #8e8e8e;
-		opacity: 0;
-		text-shadow: 4px 0 #8e8e8e;
-		transition: all 0.5s ease;
-	}
-	.collapsed .resizable:before {
-		opacity: 1;
-	}
-	nav a .menu-item-container {
-		border-radius: 0.45rem;
-	}
-	nav a.active .menu-item-container,
-	nav a:hover .menu-item-container {
-		transition: background-color 0.3s ease;
-	}
-	nav ul:not(.collapsed) a.active .menu-item-container {
-		transition-duration: 0.5s;
-		background: #aaa;
-	}
-	nav ul:not(.collapsed) a:hover .menu-item-container {
-		background: #fff;
-	}
-	nav ul:not(.collapsed) a.active .menu-item-container .menu-item,
-	nav ul:not(.collapsed) a:hover .menu-item-container .menu-item {
-		color: #000;
-	}
-	nav ul.collapsed a.active .menu-item-container .menu-item,
-	nav ul.collapsed a:hover .menu-item-container .menu-item {
-		color: #fff;
-	}
-</style>
-
 <script>
-	import { gsap } from "gsap";
-	import { ScrollTrigger } from "gsap/ScrollTrigger";
-	import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 
-	gsap.registerPlugin(DrawSVGPlugin, ScrollTrigger);
+	document.addEventListener('DOMContentLoaded', function() {
+		const navbar = document.querySelector('[data-navbar]');
+		const navItems = document.querySelectorAll('[data-nav-item]');
+		const navLinks = document.querySelectorAll('[data-nav-link]');
+		const mobileMenuToggle = document.querySelector('[data-mobile-menu-toggle]');
+		const mobileMenu = document.querySelector('[data-mobile-menu]');
+		const megaMenuContainer = document.querySelector('[data-mega-menu-container]');
 
-	function init() {
-		gsap.timeline({
-			defaults: {
-				duration: 1,
-				ease: "power2.out",
-			},
-		})
-			.from(".logo-svg path", { drawSVG: 0 })
-			.to(".logo-svg path", { fill: "#000", duration: 2 }, "<+=0.5");
+		let currentHoveredItem = null;
+		let activeTimeout = null;
 
-		let isHoveringMenu = false;
-		let menuCollapsed = false;
 
-		const pageLinksUl = document.querySelector("header .nav-container nav ul");
+		navItems.forEach((item, index) => {
+			const link = item.querySelector('[data-nav-link]');
+			const titleElement = link.querySelector('span');
+			const title = titleElement ? titleElement.textContent.trim().toLowerCase().replace(/\s+/g, '-') : '';
+			const megaMenu = document.querySelector(`[data-mega-menu="mega-menu-${title}"]`);
+			const chevron = item.querySelector('a[data-nav-link] > svg');
 
-		if (!pageLinksUl) {
-			return;
-		}
+			item.addEventListener('mouseenter', function() {
+				currentHoveredItem = item;
 
-		let menuCollapseTl = gsap
-			.timeline({
-				defaults: {
-					ease: "back.inOut(1.7)",
-					duration: 0.4,
-				},
-				paused: true,
-				onStart: () => {
-					pageLinksUl.classList.add("collapsed");
-				},
-			})
-			.to("header .nav-container", { width: 125 })
-			.to(
-				pageLinksUl,
-				{
-					x: () => {
-						const pathName = window.location.pathname;
 
-						if (pathName === "/" || pathName === "/it/") {
-							return "9.5rem";
-						} else if (pathName.startsWith("/blog") || pathName.startsWith("/it/blog")) {
-							return "3.5rem";
+				if (megaMenu) {
+
+					document.querySelectorAll('.mega-menu').forEach(menu => {
+						if (menu !== megaMenu) {
+							menu.style.opacity = '0';
+							menu.style.visibility = 'hidden';
+							menu.style.transform = 'translateY(10px)';
+						}
+					});
+
+
+					megaMenu.style.opacity = '1';
+					megaMenu.style.visibility = 'visible';
+					megaMenu.style.transform = 'translateY(0)';
+
+
+					if (chevron) {
+						chevron.style.transform = 'rotate(180deg)';
+					}
+				}
+			});
+
+			item.addEventListener('mouseleave', function() {
+
+				activeTimeout = setTimeout(() => {
+					if (currentHoveredItem === item) {
+						if (megaMenu) {
+							megaMenu.style.opacity = '0';
+							megaMenu.style.visibility = 'hidden';
+							megaMenu.style.transform = 'translateY(10px)';
 						}
 
-						return "-3.5rem";
-					},
-				},
-				"<",
-			);
 
-		const isTouchDevice = window.matchMedia("(hover: none)").matches;
+						if (chevron) {
+							chevron.style.transform = 'rotate(0deg)';
+						}
 
-		if (window.innerWidth >= 768 && !isTouchDevice) {
-			function expandMenu() {
-				menuCollapseTl.reverse();
-				pageLinksUl?.classList.remove("collapsed");
-				document.querySelector("header .navigation")?.classList.remove("collapsed");
-				menuCollapsed = false;
+						currentHoveredItem = null;
+					}
+				}, 100);
+			});
+
+
+			if (megaMenu) {
+				megaMenu.addEventListener('mouseenter', function() {
+					if (activeTimeout) {
+						clearTimeout(activeTimeout);
+					}
+				});
+
+				megaMenu.addEventListener('mouseleave', function() {
+					megaMenu.style.opacity = '0';
+					megaMenu.style.visibility = 'hidden';
+					megaMenu.style.transform = 'translateY(10px)';
+
+					if (chevron) {
+						chevron.style.transform = 'rotate(0deg)';
+					}
+					currentHoveredItem = null;
+				});
 			}
+		});
 
-			function collapseMenu() {
-				if (window.scrollY > 200) {
-					menuCollapseTl.play();
-					pageLinksUl?.classList.add("collapsed");
-					document.querySelector("header .navigation")?.classList.add("collapsed");
-					menuCollapsed = true;
+
+		if (mobileMenuToggle && mobileMenu) {
+			mobileMenuToggle.addEventListener('click', function() {
+				mobileMenu.classList.toggle('hidden');
+			});
+		}
+
+
+		const mobileDropdownToggles = document.querySelectorAll('[data-mobile-dropdown-toggle]');
+		mobileDropdownToggles.forEach(toggle => {
+			toggle.addEventListener('click', function() {
+				const targetId = this.getAttribute('data-mobile-dropdown-toggle');
+				const dropdown = document.querySelector(`[data-mobile-dropdown="${targetId}"]`);
+				const chevron = this.querySelector('svg');
+
+				if (dropdown) {
+					const isHidden = dropdown.classList.contains('hidden');
+
+
+					document.querySelectorAll('.mobile-dropdown').forEach(dd => {
+						if (dd !== dropdown) {
+							dd.classList.add('hidden');
+							dd.style.maxHeight = '0';
+						}
+					});
+
+
+					document.querySelectorAll('[data-mobile-dropdown-toggle] svg').forEach(ch => {
+						if (ch !== chevron) {
+							ch.style.transform = 'rotate(0deg)';
+						}
+					});
+
+					if (isHidden) {
+						dropdown.classList.remove('hidden');
+						dropdown.style.maxHeight = dropdown.scrollHeight + 'px';
+						chevron.style.transform = 'rotate(180deg)';
+					} else {
+						dropdown.style.maxHeight = '0';
+						chevron.style.transform = 'rotate(0deg)';
+						setTimeout(() => {
+							dropdown.classList.add('hidden');
+						}, 300);
+					}
 				}
-			}
+			});
+		});
+	});
+</script>
 
-			collapseMenu();
+<style>
+	body {
+		padding-top: 5rem;
+	}
 
-			const navContainer = document.querySelector(".nav-container") as HTMLElement;
+	.nav-link.active-page {
+		background-color: #eff6ff;
+		color: #2563eb;
+	}
 
-			function mouseEnterHandler() {
-				isHoveringMenu = true;
-				expandMenu();
-			}
+	.mega-menu-container {
+		position: relative;
+	}
 
-			function mouseLeaveHandler() {
-				isHoveringMenu = false;
-				collapseMenu();
-			}
+	.mega-menu {
+		transform: translateY(10px);
+		z-index: 1000;
+	}
 
-			function handleScroll() {
-				if (window.scrollY > 200 && !isHoveringMenu && !menuCollapsed) {
-					collapseMenu();
-				} else if (window.scrollY <= 200 && menuCollapsed) {
-					expandMenu();
-				}
-			}
+	.mobile-dropdown {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.3s ease-in-out;
+	}
 
-			navContainer?.removeEventListener("mouseenter", mouseEnterHandler);
-			navContainer?.addEventListener("mouseenter", mouseEnterHandler);
+	.mobile-dropdown.show {
+		max-height: 500px;
+	}
 
-			navContainer?.removeEventListener("mouseleave", mouseLeaveHandler);
-			navContainer?.addEventListener("mouseleave", mouseLeaveHandler);
+	.mobile-menu {
+		animation: slideDown 0.3s ease-out;
+	}
 
-			window?.removeEventListener("scroll", handleScroll);
-			window?.addEventListener("scroll", handleScroll);
+	@keyframes slideDown {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
 		}
 	}
 
-	document.removeEventListener("DOMContentLoaded", init); // astro:page-load
-	document.addEventListener("DOMContentLoaded", init); // astro:page-load
-</script>
+	.nav-link,
+	.mega-menu,
+	.mobile-dropdown {
+		transition: all 0.3s ease-out;
+	}
+
+	.nav-link svg {
+		transition: transform 0.2s ease-in-out;
+	}
+
+	@media (max-width: 1024px) {
+		body {
+			padding-top: 4rem;
+		}
+	}
+
+
+	.mega-menu-container .mega-menu {
+		box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+	}
+</style>
