@@ -1,0 +1,91 @@
+---
+import Title from "@components/global/Title.astro";
+import { getLangFromUrl, useTranslations } from "@i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const industriesData = [
+    {
+        id: "education",
+        title: "Education",
+        description: "Revolutionizing learning and administrative processes with AI, creating personalized and efficient educational experiences.",
+        areas: [
+            { id: "education-ai-tutoring", title: "AI Tutoring Systems", description: "Personalized learning paths and intelligent tutoring for students." },
+            { id: "education-assessment", title: "Automated Assessment", description: "Streamlining grading and feedback with AI-powered assessment tools." },
+            { id: "education-content-delivery", title: "Smart Content Delivery", description: "Adaptive learning platforms that tailor content to individual student needs." },
+        ]
+    },
+    {
+        id: "telecommunication",
+        title: "Telecommunication",
+        description: "Enhancing network efficiency, customer experience, and operational intelligence through advanced AI solutions.",
+        areas: [
+            { id: "telecom-fault-detection", title: "Network Fault Detection", description: "Proactive identification and resolution of network issues using real-time AI analysis." },
+            { id: "telecom-churn-prediction", title: "Customer Churn Prediction", description: "Leveraging machine learning to forecast and mitigate customer attrition." },
+            { id: "telecom-traffic-optimization", title: "Traffic Optimization", description: "AI-driven insights for optimizing bandwidth allocation and network performance." },
+        ]
+    },
+    {
+        id: "home-automation",
+        title: "Home Automation",
+        description: "Creating smarter, more efficient, and convenient living spaces with intelligent automation technologies.",
+        areas: [
+            { id: "home-automation-lighting", title: "Smart Lighting Systems", description: "Intelligent, AI-controlled lighting solutions for enhanced comfort and energy savings." },
+            { id: "home-automation-voice", title: "Voice-Controlled Interfaces", description: "Seamless integration with voice assistants like Alexa and Google Home for intuitive control." },
+            { id: "home-automation-energy", title: "Energy Usage Optimization", description: "Smart monitoring and management of energy consumption to reduce waste and costs." },
+        ]
+    },
+    {
+        id: "iot",
+        title: "Internet of Things (IoT)",
+        description: "Building intelligent ecosystems for connected devices, enabling data-driven insights and automated actions.",
+        areas: [
+            { id: "iot-telemetry", title: "Device Telemetry Processing", description: "Scalable solutions for ingesting, processing, and analyzing large-scale data from IoT devices." },
+            { id: "iot-maintenance", title: "Predictive Maintenance", description: "Utilizing sensor data and AI to anticipate equipment failures and optimize maintenance schedules." },
+            { id: "iot-security", title: "IoT Security Solutions", description: "Advanced AI-based threat detection and protection for IoT networks and devices." },
+        ]
+    }
+];
+---
+
+<section class="isolate px-6 py-24 sm:py-32 lg:px-8">
+    <div class="absolute inset-x-0 top-[-10rem] transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]" aria-hidden="true">
+        <div class="gradient-element"></div>
+    </div>
+    <div class="mx-auto max-w-7xl">
+        <Title class="pb-10 pt-20 uppercase" title="Industries We Serve" subtitle="Tailored AI Solutions Across Sectors" />
+
+        {industriesData.map((industry, industryIndex) => (
+            <section id={industry.id} class={`py-16 lg:py-24 scroll-mt-20 ${industryIndex > 0 ? 'border-t border-gray-200' : ''}`}>
+                <div class="mx-auto max-w-5xl text-center mb-12 lg:mb-16">
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">{industry.title}</h2>
+                    <p class="mt-4 text-lg leading-8 text-gray-600">{industry.description}</p>
+                </div>
+
+                <div class="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+                    {industry.areas.map(area => (
+                        <div id={area.id} class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 scroll-mt-24"> {/* scroll-mt-24 for fixed nav */}
+                            <h3 class="text-xl font-semibold text-gray-900 mb-3">{area.title}</h3>
+                            <p class="text-gray-600 text-base leading-relaxed">{area.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </section>
+        ))}
+    </div>
+</section>
+
+<style>
+    .gradient-element {
+        @apply relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem];
+        clip-path: polygon(
+            74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%,
+            60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%,
+            0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%
+        );
+    }
+    section[id] {
+        scroll-margin-top: 5rem;
+    }
+</style>
