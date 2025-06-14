@@ -19,13 +19,20 @@ const allProjects = (await getCollection('projects'))
 	})
 	.map((prj) => {
 		const [postLang, slug] = prj.slug.split('/');
-
 		return {
 			...prj,
 			slug: slug,
 		};
 	})
-	.sort((a, b) => Number(b.data.pubDate) - Number(a.data.pubDate));
+	.sort((a, b) => {
+        const navOrderA = a.data.nav_order ?? Infinity;
+        const navOrderB = b.data.nav_order ?? Infinity;
+
+        if (navOrderA !== navOrderB) {
+            return navOrderA - navOrderB;
+        }
+        return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+    });
 
 const seo: AstroSeoProps = {
   title: "Our AI & Web Development Projects | APEXAI Solutions",

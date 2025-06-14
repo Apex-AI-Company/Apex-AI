@@ -1,56 +1,46 @@
-import { defineCollection, z } from "astro:content";
-
-const postsCollection = defineCollection({
-	schema: ({ image }) =>
-		z.object({
-			title: z.string(),
-			pubDate: z.date(),
-			description: z.string(),
-			author: z.object({
-				name: z.string(),
-				link: z.string(),
-			}),
-			image: z.object({
-				source: image(),
-				alt: z.string(),
-			}),
-
-			tags: z.array(z.string()),
-		}),
-});
+import { defineCollection, z } from 'astro:content';
 
 const projectsCollection = defineCollection({
-	schema: ({ image }) =>
-		z.object({
-			title: z.string(),
-			pubDate: z.date(),
-			description: z.string(),
-			link: z.string(),
-			author: z.object({
-				name: z.string(),
-				link: z.string(),
-			}),
-			image: z.object({
-				source: image(),
-				alt: z.string(),
-			}),
-		}),
+  type: 'content',
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    image: z.object({
+        source: image(),
+        alt: z.string(),
+    }),
+    author: z.object({
+        name: z.string(),
+        link: z.string().url().optional(),
+    }),
+    tags: z.array(z.string()).optional(),
+    link: z.string().optional(),
+    draft: z.boolean().optional().default(false),
+    nav_order: z.number().optional(), // This is key
+  }),
 });
 
-const authorsCollection = defineCollection({
-	schema: ({ image }) =>
-		z.object({
-			name: z.string(),
-			description: z.string(),
-			image: z.object({
-				source: image(),
-				alt: z.string(),
-			}),
-		}),
+const postsCollection = defineCollection({ // If you use a separate 'posts' collection
+  type: 'content',
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    image: z.object({
+      source: image(),
+      alt: z.string(),
+    }),
+    author: z.object({
+      name: z.string(),
+      link: z.string().optional(),
+    }),
+    tags: z.array(z.string()).optional(),
+    draft: z.boolean().optional().default(false),
+  }),
 });
 
 export const collections = {
-	posts: postsCollection,
-	projects: projectsCollection,
-	authors: authorsCollection,
+  'projects': projectsCollection,
+  'posts': postsCollection,
 };
