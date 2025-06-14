@@ -62,31 +62,58 @@ function isActivePage(url: string, pathname: string): boolean {
 
 			<!-- Mobile Menu Button -->
 			<button
-				class="lg:hidden flex items-center justify-center w-10 h-10 rounded-md hover:bg-gray-100 transition-colors duration-200"
+				class="lg:hidden flex items-center justify-center w-10 h-10 rounded-md hover:bg-gray-100 transition-colors duration-200 relative z-[10000]"
 				data-mobile-menu-toggle
 				aria-label="Toggle mobile menu"
 			>
-				<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+				<svg class="w-6 h-6 text-gray-700 hamburger-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+				<svg class="w-6 h-6 text-gray-700 close-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
 			</button>
 		</div>
+	</div>
 
-		<!-- Mobile Navigation -->
-		<div class="lg:hidden mobile-menu hidden" data-mobile-menu>
-			<div class="py-4 border-t border-gray-100 max-h-[60vh] overflow-y-auto">
+	<!-- Mobile Navigation Overlay -->
+	<div class="mobile-menu-overlay lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm opacity-0 invisible transition-all duration-300 ease-in-out z-[9998]" data-mobile-overlay></div>
+
+	<!-- Mobile Navigation -->
+	<div class="lg:hidden mobile-menu fixed top-0 right-0 h-screen w-full bg-white transform translate-x-full transition-transform duration-300 ease-in-out z-[9999]" data-mobile-menu style="min-height: 100vh; height: 100vh;"
+		<div class="flex flex-col h-full min-h-screen bg-white">
+			<!-- Mobile Header -->
+			<div class="flex items-center justify-between h-16 px-6 border-b border-gray-100 bg-white">
+				<a href={translatePath("/")} aria-label="Home" class="flex items-center">
+					<Image
+						src="/logo-header.png"
+						alt="ApexAI Logo"
+						width={120}
+						height={40}
+						class="h-10 w-auto"
+					/>
+				</a>
+				<button
+					class="flex items-center justify-center w-10 h-10 rounded-md hover:bg-gray-100 transition-colors duration-200 z-[10001]"
+					data-mobile-menu-close
+					aria-label="Close mobile menu"
+				>
+					<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+				</button>
+			</div>
+
+			<!-- Mobile Menu Content -->
+			<div class="flex-1 h-full overflow-y-auto py-6 bg-white">
 				{navigation.main.map((item) => (
 					<div class="mobile-nav-item">
-						<div class="flex items-center justify-between">
+						<div class="flex items-center justify-between px-6">
 							<a
 								href={translatePath(item.url)}
-								class={`flex-1 px-4 py-3 text-gray-700 hover:text-sky-600 hover:bg-gray-50 transition-colors duration-200 ${
-									isActivePage(item.url, pathname) ? 'text-sky-600 bg-sky-50' : ''
+								class={`flex-1 py-4 text-lg font-medium text-gray-700 hover:text-sky-600 transition-colors duration-200 ${
+									isActivePage(item.url, pathname) ? 'text-sky-600' : ''
 								}`}
 							>
 								{item.title}
 							</a>
 							{item.hasDropdown && item.megaMenu && (
 								<button
-									class="px-4 py-3 text-gray-500 hover:text-sky-600 transition-colors duration-200"
+									class="p-4 text-gray-500 hover:text-sky-600 transition-colors duration-200"
 									data-mobile-dropdown-toggle={`mobile-dropdown-${item.title.toLowerCase().replace(/\s+/g, '-')}`}
 									aria-label={`Toggle ${item.title} submenu`}
 								>
@@ -101,17 +128,17 @@ function isActivePage(url: string, pathname: string): boolean {
 								class="mobile-dropdown hidden overflow-hidden transition-all duration-300 ease-in-out"
 								data-mobile-dropdown={`mobile-dropdown-${item.title.toLowerCase().replace(/\s+/g, '-')}`}
 							>
-								<div class="ml-4 border-l border-gray-200 pl-4 py-2">
+								<div class="bg-gray-50 py-4">
 									{item.megaMenu.columns.map((column) => (
-										<div class="mb-4">
-											<div class="font-medium text-gray-900 text-sm mb-2 px-2">{column.title}</div>
+										<div class="mb-6 px-6">
+											<div class="font-semibold text-gray-900 text-sm uppercase tracking-wide mb-3">{column.title}</div>
 											{column.links.map((link) => (
 												<a
 													href={translatePath(link.url)}
-													class="block py-2 px-2 text-sm text-gray-600 hover:text-sky-600 hover:bg-gray-50 rounded transition-colors duration-200"
+													class="block py-3 text-gray-600 z-50 hover:text-sky-600 transition-colors duration-200 border-b border-gray-200 last:border-b-0"
 												>
 													<div class="font-medium">{link.title}</div>
-													<div class="text-xs text-gray-500 mt-1">{link.description}</div>
+													<div class="text-sm text-gray-500 mt-1">{link.description}</div>
 												</a>
 											))}
 										</div>
@@ -119,17 +146,21 @@ function isActivePage(url: string, pathname: string): boolean {
 								</div>
 							</div>
 						)}
+						<div class="border-b border-gray-100 mx-6"></div>
 					</div>
 				))}
-				<div class="px-4 py-3 border-t border-gray-100 mt-4">
+				<!-- Mobile Contact Button -->
+				<div class="p-6 mb-36 border-t border-gray-100 bg-white">
 					<a
 						href={translatePath("/contact/")}
-						class="block w-full text-center bg-sky-600 text-white py-3 rounded-lg hover:bg-sky-700 transition-colors duration-200 font-medium"
+						class="block w-full text-center bg-sky-600 text-white py-4 rounded-lg hover:bg-sky-700 transition-colors duration-200 font-medium text-lg"
 					>
-						{t("contacts")}
+						Contact us
 					</a>
-				</div>
+				</div>	
 			</div>
+
+			
 		</div>
 	</div>
 
@@ -203,12 +234,16 @@ function isActivePage(url: string, pathname: string): boolean {
 		const navLinks = document.querySelectorAll('[data-nav-link]');
 		const mobileMenuToggle = document.querySelector('[data-mobile-menu-toggle]');
 		const mobileMenu = document.querySelector('[data-mobile-menu]');
+		const mobileMenuClose = document.querySelector('[data-mobile-menu-close]');
+		const mobileOverlay = document.querySelector('[data-mobile-overlay]');
 		const megaMenuContainer = document.querySelector('[data-mega-menu-container]');
+		const hamburgerIcon = document.querySelector('.hamburger-icon');
+		const closeIcon = document.querySelector('.close-icon');
 
 		let currentHoveredItem = null;
 		let activeTimeout = null;
 
-
+		// Desktop mega menu functionality
 		navItems.forEach((item, index) => {
 			const link = item.querySelector('[data-nav-link]');
 			const titleElement = link.querySelector('span');
@@ -219,9 +254,7 @@ function isActivePage(url: string, pathname: string): boolean {
 			item.addEventListener('mouseenter', function() {
 				currentHoveredItem = item;
 
-
 				if (megaMenu) {
-
 					document.querySelectorAll('.mega-menu').forEach(menu => {
 						if (menu !== megaMenu) {
 							menu.style.opacity = '0';
@@ -230,11 +263,9 @@ function isActivePage(url: string, pathname: string): boolean {
 						}
 					});
 
-
 					megaMenu.style.opacity = '1';
 					megaMenu.style.visibility = 'visible';
 					megaMenu.style.transform = 'translateY(0)';
-
 
 					if (chevron) {
 						chevron.style.transform = 'rotate(180deg)';
@@ -243,7 +274,6 @@ function isActivePage(url: string, pathname: string): boolean {
 			});
 
 			item.addEventListener('mouseleave', function() {
-
 				activeTimeout = setTimeout(() => {
 					if (currentHoveredItem === item) {
 						if (megaMenu) {
@@ -251,7 +281,6 @@ function isActivePage(url: string, pathname: string): boolean {
 							megaMenu.style.visibility = 'hidden';
 							megaMenu.style.transform = 'translateY(10px)';
 						}
-
 
 						if (chevron) {
 							chevron.style.transform = 'rotate(0deg)';
@@ -261,7 +290,6 @@ function isActivePage(url: string, pathname: string): boolean {
 					}
 				}, 100);
 			});
-
 
 			if (megaMenu) {
 				megaMenu.addEventListener('mouseenter', function() {
@@ -283,14 +311,49 @@ function isActivePage(url: string, pathname: string): boolean {
 			}
 		});
 
+		// Mobile menu functionality
+		function openMobileMenu() {
+			mobileMenu.classList.remove('translate-x-full');
+			mobileOverlay.classList.remove('opacity-0', 'invisible');
+			document.body.style.overflow = 'hidden';
+			hamburgerIcon.classList.add('hidden');
+			closeIcon.classList.remove('hidden');
+		}
 
-		if (mobileMenuToggle && mobileMenu) {
+		function closeMobileMenu() {
+			mobileMenu.classList.add('translate-x-full');
+			mobileOverlay.classList.add('opacity-0', 'invisible');
+			document.body.style.overflow = '';
+			hamburgerIcon.classList.remove('hidden');
+			closeIcon.classList.add('hidden');
+		}
+
+		if (mobileMenuToggle) {
 			mobileMenuToggle.addEventListener('click', function() {
-				mobileMenu.classList.toggle('hidden');
+				if (mobileMenu.classList.contains('translate-x-full')) {
+					openMobileMenu();
+				} else {
+					closeMobileMenu();
+				}
 			});
 		}
 
+		if (mobileMenuClose) {
+			mobileMenuClose.addEventListener('click', closeMobileMenu);
+		}
 
+		if (mobileOverlay) {
+			mobileOverlay.addEventListener('click', closeMobileMenu);
+		}
+
+		// Close mobile menu on escape key
+		document.addEventListener('keydown', function(e) {
+			if (e.key === 'Escape' && !mobileMenu.classList.contains('translate-x-full')) {
+				closeMobileMenu();
+			}
+		});
+
+		// Mobile dropdown functionality
 		const mobileDropdownToggles = document.querySelectorAll('[data-mobile-dropdown-toggle]');
 		mobileDropdownToggles.forEach(toggle => {
 			toggle.addEventListener('click', function() {
@@ -301,7 +364,7 @@ function isActivePage(url: string, pathname: string): boolean {
 				if (dropdown) {
 					const isHidden = dropdown.classList.contains('hidden');
 
-
+					// Close other dropdowns
 					document.querySelectorAll('.mobile-dropdown').forEach(dd => {
 						if (dd !== dropdown) {
 							dd.classList.add('hidden');
@@ -309,7 +372,7 @@ function isActivePage(url: string, pathname: string): boolean {
 						}
 					});
 
-
+					// Reset other chevrons
 					document.querySelectorAll('[data-mobile-dropdown-toggle] svg').forEach(ch => {
 						if (ch !== chevron) {
 							ch.style.transform = 'rotate(0deg)';
@@ -352,6 +415,16 @@ function isActivePage(url: string, pathname: string): boolean {
 		z-index: 1000;
 	}
 
+	/* Mobile Menu Styles */
+	.mobile-menu {
+		max-width: 100vw;
+		will-change: transform;
+	}
+
+	.mobile-menu-overlay {
+		will-change: opacity;
+	}
+
 	.mobile-dropdown {
 		max-height: 0;
 		overflow: hidden;
@@ -360,21 +433,6 @@ function isActivePage(url: string, pathname: string): boolean {
 
 	.mobile-dropdown.show {
 		max-height: 500px;
-	}
-
-	.mobile-menu {
-		animation: slideDown 0.3s ease-out;
-	}
-
-	@keyframes slideDown {
-		from {
-			opacity: 0;
-			transform: translateY(-10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
 	}
 
 	.nav-link,
@@ -393,8 +451,12 @@ function isActivePage(url: string, pathname: string): boolean {
 		}
 	}
 
-
 	.mega-menu-container .mega-menu {
 		box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+	}
+
+	/* Prevent scrolling when mobile menu is open */
+	body.mobile-menu-open {
+		overflow: hidden;
 	}
 </style>

@@ -124,14 +124,14 @@ const services = [
 		<!-- Solutions Grid -->
 		<div class="mt-20">
 			<h2 class="mb-12 text-center text-4xl font-bold md:text-7xl">What We Can Build for You</h2>
-			<div class="solutions-grid grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-10">
+			<div class="md:solutions-grid grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-10">
 				{
 					solutions.map((solution, index) => {
 						const isBlack = Math.random() < 0.5;
 						const bgClass = isBlack ? "bg-black text-white" : "bg-[#b7e1ff] text-black";
 
 						return (
-							<div class={`${bgClass} solution-pill rounded-full p-4`}>
+							<div class={`${bgClass} md:solution-pill rounded-full p-4`}>
 								<p class="text-center text-lg font-semibold md:text-xl">{solution}</p>
 							</div>
 						);
