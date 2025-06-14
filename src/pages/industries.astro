@@ -1,0 +1,18 @@
+---
+import IndustriesComponent from "@/components/global/IndustriesComponent.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { AstroSeoProps } from "@astrolib/seo";
+
+const seo: AstroSeoProps = {
+	title: "Industries We Serve | APEXAI Solutions",
+	description: "APEXAI Solutions provides innovative AI and web development services across various industries including Education, Telecommunication, Home Automation, and IoT.",
+    openGraph: {
+        title: "Industries We Serve | APEXAI Solutions",
+        description: "APEXAI Solutions provides innovative AI and web development services across various industries including Education, Telecommunication, Home Automation, and IoT.",
+    }
+};
+---
+
+<BaseLayout seo={seo}>
+	<IndustriesComponent />
+</BaseLayout>
