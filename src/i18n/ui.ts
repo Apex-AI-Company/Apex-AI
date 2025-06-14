@@ -175,4 +175,176 @@ export const ui = {
 	},
 } as const;
 
+export const navigation = {
+	main: [
+		{
+			title: "Home",
+			url: "/",
+			hasDropdown: false
+		},
+		{
+			title: "Services",
+			url: "/services",
+			hasDropdown: true,
+			megaMenu: {
+				descriptiveTitle: "AI-Powered Platforms to Automate, Analyze & Accelerate Growth", // ADDED
+				columns: [
+					{
+						title: "AI-Driven Automation",
+						links: [
+ 							{ title: "Task Automation", url: "/services#task-automation", description: "Automate repetitive tasks and complex workflows." },
+ 							{ title: "ETL & Data Pipelines", url: "/services#etl-data-pipelines", description: "Build robust data ingestion and transformation systems." },
+ 							{ title: "Web Scraping Solutions", url: "/services#web-scraping", description: "Extract valuable data from the web at scale." },
+ 							{ title: "Automated Reporting", url: "/services#automated-reporting", description: "Generate key insights with auto-generated reports." }
+						]
+					},
+					{
+						title: "Custom AI Development",
+						links: [
+ 							{ title: "AI Agents & Chatbots", url: "/services#ai-agents-chatbots", description: "Develop intelligent agents and conversational AI." },
+ 							{ title: "Computer Vision Systems", url: "/services#computer-vision", description: "Build systems for advanced image and video analysis." },
+ 							{ title: "NLP Solutions", url: "/services#nlp-solutions", description: "Leverage natural language processing for text-based tasks." },
+ 							{ title: "Reinforcement Learning", url: "/services#reinforcement-learning", description: "Create custom agents for control and optimization." }
+						]
+					},
+					{
+						title: "Intelligent Platforms",
+						links: [
+ 							{ title: "End-to-End Web Applications", url: "/services#web-applications", description: "Develop full-stack platforms with integrated AI/ML." },
+ 							{ title: "Real-time Data Dashboards", url: "/services#data-dashboards", description: "Visualize data and monitor KPIs in real-time." },
+ 							{ title: "IoT Intelligent Systems", url: "/services#iot-systems", description: "Build smart solutions for connected devices and systems." }
+						]
+					},
+					{
+						title: "MLOps & Deployment",
+						links: [
+ 							{ title: "MLOps Pipelines", url: "/services#mlops-pipelines", description: "Streamline your machine learning lifecycle." },
+ 							{ title: "Scalable AI Deployment", url: "/services#ai-deployment", description: "Deploy and manage AI models efficiently in production." },
+ 							{ title: "Cloud AI Integration (AWS)", url: "/services#cloud-ai", description: "Leverage AWS and other cloud services for AI/ML." }
+						]
+					}
+				]
+			}
+		},
+		{
+			"title": "Projects",
+			"url": "/projects",
+			"hasDropdown": true,
+			"megaMenu": {
+				descriptiveTitle: "Showcasing Our Innovations: Real-World AI Solutions", // ADDED
+				"columns": [
+					{
+						"title": "Automation & Efficiency",
+						"links": [
+							{
+								"title": "Publication Classifier",
+								"url": "/work/researchpaperclassifier",
+								"description": "Classifies research papers & predicts publishability using SciBERT & Sentence-BERT."
+							},
+							{
+								"title": "Mermaid Mind",
+								"url": "/work/mermaidmind",
+								"description": "Online MermaidJS editor & AI-powered tool for creating diagrams."
+							},
+							{
+								"title": "ApexAI Writer",
+								"url": "/work/apexai-writer",
+								"description": "Chrome extension as a writing assistant for generating high-quality messages and emails."
+							}
+						]
+					},
+					{
+						"title": "Intelligent Platforms",
+						"links": [
+							{
+								"title": "ChatStore",
+								"url": "/work/chatstore",
+								"description": "Intelligent product chatbot for a personalized shopping experience."
+							},
+							{
+								"title": "Smart Health AI",
+								"url": "/work/smarthealthai",
+								"description": "ML system predicting 8 diseases with user-driven retraining via FastAPI & MLflow."
+							},
+							{
+								"title": "MediXpert AI",
+								"url": "/work/completehealthcare",
+								"description": "AI-driven healthcare solution for diagnostics, patient engagement & data security."
+							}
+						]
+					},
+					{
+						"title": "Advanced AI Applications",
+						"links": [
+							{
+								"title": "Synthetic Swara",
+								"url": "/work/pitch-extraction",
+								"description": "Deep learning for classifying Indian classical music swaras & predicting pitch."
+							},
+							{
+								"title": "ToxicGPT",
+								"url": "/work/toxic-gpt",
+								"description": "Fine-tuned GPT-2 with QLoRA for controlled toxic text generation & multimodal experiments."
+							},
+							{
+								"title": "View All Projects",
+								"url": "/projects",
+								"description": "Explore our full portfolio of AI solutions."
+							},
+							{
+								"title": "Our GitHub Profile",
+								"url": "https://github.com/apex-ai-company/",
+								"description": "See our open-source contributions and more projects.",
+								"isExternal": true
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			title: "Industries",
+			url: "/industries",
+			hasDropdown: true,
+			megaMenu: {
+				descriptiveTitle: "Tailored AI Solutions Across Sectors", // ADDED
+				columns: [
+					{
+						title: "Education",
+						links: [
+ 							{ title: "AI Tutoring Systems", url: "/industries#education-ai-tutoring", description: "Personalized learning with intelligent tutoring systems." },
+ 							{ title: "Automated Assessment", url: "/industries#education-assessment", description: "Reduce grading time with NLP-powered tools." },
+ 							{ title: "Smart Content Delivery", url: "/industries#education-content-delivery", description: "Adaptive platforms that adjust to learner pace." }
+						]
+					},
+					{
+						title: "Telecommunication",
+						links: [
+ 							{ title: "Network Fault Detection", url: "/industries#telecom-fault-detection", description: "Real-time anomaly detection in 5G/4G networks." },
+ 							{ title: "Customer Churn Prediction", url: "/industries#telecom-churn-prediction", description: "Forecast and reduce customer attrition using ML." },
+ 							{ title: "Traffic Optimization", url: "/industries#telecom-traffic-optimization", description: "Optimize bandwidth and performance with AI insights." }
+						]
+					},
+					{
+						title: "Home Automation",
+						links: [
+ 							{ title: "Smart Lighting Systems", url: "/industries#home-automation-lighting", description: "AI-controlled lighting for comfort and efficiency." },
+ 							{ title: "Voice-Controlled Interfaces", url: "/industries#home-automation-voice", description: "Integrate Alexa, Google Home for seamless control." },
+ 							{ title: "Energy Usage Optimization", url: "/industries#home-automation-energy", description: "Monitor and reduce energy consumption smartly." }
+						]
+					},
+					{
+						title: "IoT",
+						links: [
+ 							{ title: "Device Telemetry Processing", url: "/industries#iot-telemetry", description: "Process large-scale data from connected devices." },
+ 							{ title: "Predictive Maintenance", url: "/industries#iot-maintenance", description: "Anticipate equipment failure with sensor data." },
+ 							{ title: "IoT Security Solutions", url: "/industries#iot-security", description: "Protect device networks with AI-based threat detection." }
+						]
+					}
+				]
+			}
+		}
+	]
+};
+
 export const showDefaultLang = false;

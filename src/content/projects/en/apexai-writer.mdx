@@ -1,0 +1,89 @@
+---
+pubDate: 2025-06-9
+author:
+    name: Aditya Godse
+    link: https://adimail.github.io/
+title: "APEXAI Writer"
+description: "Chrome extension designed to help APEXAI personnel generate high-quality emails and messages with the power of LLMs, securely and efficiently."
+link: https://github.com/adimail/apexai-writer
+image:
+    source: "@assets/images/projects/apexai-writer.jpeg"
+    alt: "Preview of the APEXAI Writer Chrome Extension interface"
+tags: ["chrome extension", "ai writing assistant", "llm", "productivity", "internal tools", "security", "apexai"]
+---
+
+In the fast-paced environment at APEXAI, clear, concise, and professional communication is key. Whether it's drafting a cold email, following up with a client, or putting together a proposal, crafting the right message takes time and effort. To empower our team and streamline this process, we're thrilled to introduce the **APEXAI Writer Chrome Extension** – a specialized writing assistant built by APEXAI, for APEXAI.
+
+## Why APEXAI Writer?
+
+The APEXAI Writer isn't just another AI writing tool. It's designed with our team's specific needs in mind, integrating APEXAI's company information and brand voice directly into its generation process. This means:
+
+*   **Boosted Productivity:** Generate well-structured emails and messages in seconds, freeing up valuable time.
+*   **Enhanced Consistency:** Ensure all communications align with APEXAI's professional tone and messaging.
+*   **Tailored Content:** Leverage pre-defined situations and contextual inputs to get highly relevant drafts.
+*   **Secure by Design:** Your API keys and data are handled with utmost security, directly within your browser.
+
+## Key Features at Your Fingertips
+
+The APEXAI Writer is packed with features to make your writing tasks easier and more effective:
+
+*   **Flexible LLM Integration:** Choose your preferred LLM provider (OpenAI or Google) and select from a range of models. Simply configure your API key once, and you're set.
+*   **Your Message, Your Way:**
+    *   Provide the **core message context**.
+    *   Select the **preferred message length** (Very Short to Long).
+    *   Choose the desired **tone** (Professional, Casual, Friendly, etc.).
+    *   Specify the **output type**: a formal Email or a sequence of short Messages (for chat platforms).
+    *   For message sequences, define the **number of messages**.
+*   **Tailored for Every Situation:**
+    *   Quickly select the **message type** or context (e.g., Cold Email, Follow-up, Agency Pitch, Proposal, Meeting Request, Thank You).
+    *   Based on your selection, **contextual input fields** appear, allowing you to provide specific details like recipient name, company, project scope, or meeting details.
+*   **Seamless Integration:**
+    *   Generate content directly in the extension popup.
+    *   **Copy** the generated text to your clipboard with one click.
+    *   Use the **"Select Input Box"** feature to directly paste the generated content into any active text field on your current web page.
+*   **Focus Mode:** After generation, the interface shifts to a "focus mode," allowing you to review the output and easily revise inputs or reset.
+*   **Secure Settings Management:** All your preferences, including API keys and your name (used for prompts), are stored locally and securely.
+
+## Under the Hood: Smart and Secure by Design
+
+We understand the importance of security, especially when dealing with API keys and company information. The APEXAI Writer has been built with a security-first approach:
+
+1.  **API Key Protection:**
+    *   **Local Storage Only:** Your OpenAI and Google API keys are stored exclusively on your local computer using `chrome.storage.local`.
+    *   **Strong Encryption at Rest:** Keys are encrypted using **AES-GCM 256-bit encryption** before being saved. A unique master encryption key (itself stored securely as a JWK) is used for this process.
+    *   **HTTPS Transmission:** When communicating with LLM providers, API keys are sent over secure HTTPS connections.
+
+2.  **Minimal and Contextual Permissions:**
+    *   The extension requests only necessary permissions: `storage` (for settings), `clipboardWrite` (for copying), and `activeTab` + `scripting` (for pasting into the current page *only* when you explicitly use the feature). This is far more secure than requesting access to all websites.
+
+3.  **Data Privacy & Handling:**
+    *   **No External APEXAI Servers:** The extension operates entirely client-side. Your API keys, prompts, and generated content are **never sent to or stored on any APEXAI servers** or any third-party servers (other than the LLM providers you configure).
+    *   **Fixed Company Information:** APEXAI's company details, used to enrich prompts, are embedded directly within the extension (`js/config.js`), ensuring consistency and preventing external fetches for this data.
+
+4.  **Content Security Policy (CSP):** The extension's UI operates under a strict CSP to mitigate common web vulnerabilities.
+
+*(Image: Consider embedding the `docs/work.png` and `docs/output.png` screenshots here with captions like "Defining the message context and seeing the AI-generated output.")*
+
+## Getting Started with APEXAI Writer
+
+Using the extension is straightforward:
+
+1.  **Installation:**
+    *   Download/clone the extension repository.
+    *   Open `chrome://extensions/` in your Chrome browser.
+    *   Enable "Developer mode."
+    *   Click "Load unpacked" and select the extension's directory.
+2.  **Initial Configuration:**
+    *   The extension will open to the Settings page.
+    *   Choose an LLM provider (OpenAI or Google).
+    *   Select a model.
+    *   Enter your API key for the chosen provider (it will be encrypted and saved locally).
+    *   Set your name – this will be used in prompts to indicate who is writing the message from APEXAI.
+
+Once configured, you can click the APEXAI Writer icon in your Chrome toolbar to start generating messages!
+
+## Empowering APEXAI's Communication
+
+The APEXAI Writer is more than just a tool; it's a step towards smarter, more efficient workflows for our entire team. By leveraging the power of LLMs in a secure and tailored way, we can enhance our external communications and focus more on what we do best – building cutting-edge AI solutions.
+
+We encourage all APEXAI personnel to install and explore the APEXAI Writer. We believe it will quickly become an indispensable part of your daily toolkit!
