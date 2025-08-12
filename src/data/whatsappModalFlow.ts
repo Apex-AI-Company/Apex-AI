@@ -22,7 +22,7 @@ export interface ModalScreen {
 	whatsappMessageTemplate?: string;
 }
 
-export const WHATSAPP_PHONE_NUMBER = "919834978407";
+export const WHATSAPP_PHONE_NUMBER = "918767380619";
 
 export const modalFlow: ModalScreen[] = [
 	{
@@ -147,14 +147,14 @@ export const modalFlow: ModalScreen[] = [
 	{
 		id: "s2_path4_direct",
 		heading: "Ready to Connect?",
-		question: "We're excited to hear from you! The best way to discuss your needs or hiring is directly with Rohit Kshirsagar (Lead Operations).",
+		question: "We're excited to hear from you! The best way to discuss your needs or hiring is directly with Parth Lhase (Lead Operations).",
 		contentType: "options",
 		options: [
 			{
 				id: "s2_p4_opt_wa",
-				text: "Chat with Rohit on WhatsApp",
+				text: "Chat with Parth on WhatsApp",
 				action: "openWhatsApp",
-				whatsappMessageTemplate: "Hi Rohit, I'd like to connect and discuss working with APEX AI.",
+				whatsappMessageTemplate: "Hi Parth, I'd like to connect and discuss working with APEX AI.",
 			},
 			{ id: "s2_p4_opt_back", text: "« Go Back", nextScreenId: "s1", action: "nextScreen" },
 		],
